@@ -1,3 +1,3 @@
-# project-6-kamil-mietek-mateusz-monika
+# Invoices kamil-mietek-mateusz
 
-# TODO readme should explain how to start project, how to configure IJ etc.
+# Invoices application being developed by three junior developers, supervised by experienced software engineer. Created some code, lot of work still needs to be done ;)
