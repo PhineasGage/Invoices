@@ -1,287 +1,291 @@
-package pl.mateuszgorski.helpers;
+package pl.coderstrust.accounting.helpers;
 
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_DESCRIPTION;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_NET_PRICE;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_QUANTITY;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_VAT_RATE;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.ONE_LINK;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.SPAN_CLAMP;
-import static pl.mateuszgorski.helpers.InvoiceEntryProvider.SPAN_CLAMP_SUPPORT;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_DESCRIPTION;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_NET_PRICE;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_QUANTITY;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_VAT_RATE;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.INCORRECT_VAT_RATE;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.ONE_LINK;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP_SUPPORT;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import pl.mateuszgorski.model.Invoice;
+import pl.coderstrust.accounting.model.Invoice;
+import pl.coderstrust.accounting.model.Invoice.InvoiceBuilder;
 
 public class InvoiceProvider {
 
-  public static final Invoice INVOICE_KRAKOW_2018 = new Invoice(
-      1, // TODO use builders everywhere - constructor with so many args is not readable
-      "1/2018", // TODO if more than 2 args are used then use builder by default
-      LocalDate.of(2018, 5, 12),
-      LocalDate.of(2018, 5, 12),
-      "Krakow",
-      CompanyProvider.COMPANY_TRANSPOL,
-      CompanyProvider.COMPANY_DRUTEX,
-      SPAN_CLAMP_SUPPORT);
+  public static final Invoice INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018 = new InvoiceBuilder()
+      .identifier("1/2018")
+      .issueDate(LocalDate.of(2018, 5, 12))
+      .saleDate(LocalDate.of(2018, 5, 12))
+      .salePlace("Krakow")
+      .buyer(CompanyProvider.COMPANY_TRANSPOL)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(SPAN_CLAMP_SUPPORT)
+      .build();
 
-  // TODO I don't like your naming convention - is the city the most important aspect of each invoice? Do you know by sale place what is inside?
-  public static final Invoice INVOICE_GRUDZIADZ_2017 = new Invoice(
-      2,
-      "2/2018",
-      LocalDate.of(2017, 3, 3),
-      LocalDate.of(2017, 3, 2),
-      "Grudziadz",
-      CompanyProvider.COMPANY_DRUKPOL,
-      CompanyProvider.COMPANY_WASBUD,
-      SPAN_CLAMP);
+  public static final Invoice INVOICE_WASBUD_SPAN_CLAMP_2017 = new InvoiceBuilder()
+      .identifier("2/2018")
+      .issueDate(LocalDate.of(2017, 3, 3))
+      .saleDate(LocalDate.of(2017, 3, 2))
+      .salePlace("Grudziadz")
+      .buyer(CompanyProvider.COMPANY_DRUKPOL)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(SPAN_CLAMP)
+      .build();
 
-  public static final Invoice INVOICE_CHELMNO_2016 = new Invoice(
-      3,
-      "3/2018",
-      LocalDate.of(2016, 03, 05), // TODO please use more various dates
-      LocalDate.of(2016, 02, 04), // TODO 03 is octal not decimal - should be 3 :)
-      "Chelmno",
-      CompanyProvider.COMPANY_DRUKPOL,
-      CompanyProvider.COMPANY_TRANSPOL,
-      SPAN_CLAMP_SUPPORT);
+  public static final Invoice INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016 = new InvoiceBuilder()
+      .identifier("3/2018")
+      .issueDate(LocalDate.of(2016, 7, 31))//
+      .saleDate(LocalDate.of(2016, 7, 31))
+      .salePlace("Grudziadz")
+      .buyer(CompanyProvider.COMPANY_DRUKPOL)
+      .seller(CompanyProvider.COMPANY_TRANSPOL)
+      .entries(SPAN_CLAMP_SUPPORT)
+      .build();
 
-  public static final Invoice INVOICE_BYDGOSZCZ_2018 = new Invoice(
-      4,
-      "4/2018",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Bydgoszcz",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_DRUTEX_LINK_2016 = new InvoiceBuilder()
+      .identifier("4/2018")
+      .issueDate(LocalDate.of(2016, 02, 29))
+      .saleDate(LocalDate.of(2016, 02, 29))
+      .salePlace("Bydgoszcz")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_EMPTY_ENTRIES = new Invoice(
-      4,
-      "555/mm",
-      LocalDate.of(2018, 02, 12),
-      LocalDate.of(2018, 05, 12),
-      "LODZ",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      Collections.emptyList());
+  public static final Invoice INVOICE_WASBUD_LINK_2018 = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Radomsko")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SALE_PLACE = new Invoice(
-      4,
-      "4/2018",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_EMPTY_ENTRIES = new InvoiceBuilder()
+      .identifier("555/mm")
+      .issueDate(LocalDate.of(2018, 11, 30))//
+      .saleDate(LocalDate.of(2018, 11, 30))
+      .salePlace("LODZ")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(Collections.emptyList())
+      .build();
 
-  public static final Invoice INVOICE_BLANK_IDENTIFIER = new Invoice(
-      4,
-      "",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "LODZ",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SALE_PLACE = new InvoiceBuilder()
+      .identifier("4/2018")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_ISSUE_DATE = new Invoice(
-      4,
-      "555/mm",
-      null,
-      LocalDate.of(2018, 05, 12),
-      "LODZ",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_IDENTIFIER = new InvoiceBuilder()
+      .identifier("")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SALE_DATE = new Invoice(
-      4,
-      "555/mm",
-      LocalDate.of(2018, 05, 12),
-      null,
-      "LODZ",
-      CompanyProvider.COMPANY_WASBUD,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_ISSUE_DATE = new InvoiceBuilder()
+      .identifier("555/mm")
+      .issueDate(null)
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_NAME = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_NAME,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SALE_DATE = new InvoiceBuilder()
+      .identifier("555/mm")
+      .issueDate(LocalDate.of(2018, 05, 12))
+      .saleDate(null)
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_WASBUD)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_NIP = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_NIP,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_BUYER_NAME = new InvoiceBuilder()
+      .identifier("555/mm")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_BLANK_NAME)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_STREET = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_STREET,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_BUYER_NIP = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_BLANK_NIP)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_POSTAL_CODE = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_POSTAL_CODE,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_BUYER_STREET = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_BLANK_STREET)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_CITY = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_CITY,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_BUYER_POSTAL_CODE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_BLANK_POSTAL_CODE)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_BUYER_DISCOUNT = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_BLANK_DISCOUNT,
-      CompanyProvider.COMPANY_DRUTEX,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_BUYER_CITY = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_BLANK_CITY)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SELLER_NAME = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_NAME,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SELLER_NAME = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_NAME)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SELLER_NIP = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_NIP,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SELLER_NIP = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_NIP)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SELLER_STREET = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_STREET,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SELLER_STREET = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_STREET)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SELLER_POSTAL_CODE = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_POSTAL_CODE,
-      ONE_LINK);
 
-  public static final Invoice INVOICE_BLANK_SELLER_CITY = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_CITY,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SELLER_POSTAL_CODE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_POSTAL_CODE)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_SELLER_DISCOUNT = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_BLANK_DISCOUNT,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_SELLER_CITY = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_CITY)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_ENTRY_DESCRIPTION = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_WASBUD,
-      EMPTY_DESCRIPTION);
+  public static final Invoice INVOICE_BLANK_SELLER_DISCOUNT = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_BLANK_DISCOUNT)
+      .entries(ONE_LINK)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_ENTRY_NET_PRICE = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_WASBUD,
-      EMPTY_NET_PRICE);
 
-  public static final Invoice INVOICE_BLANK_ENTRY_VAT_RATE = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_WASBUD,
-      EMPTY_VAT_RATE);
+  public static final Invoice INVOICE_BLANK_ENTRY_DESCRIPTION = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(EMPTY_DESCRIPTION)
+      .build();
 
-  public static final Invoice INVOICE_BLANK_ENTRY_QUNTITY = new Invoice(
-      4,
-      "sss999",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_WASBUD,
-      EMPTY_QUANTITY);
+  public static final Invoice INVOICE_BLANK_ENTRY_NET_PRICE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(EMPTY_NET_PRICE)
+      .build();
 
-  public static final Invoice INVOICE_RADOMSKO_2018 = new Invoice(
-      5,
-      "4/2018",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Bydgoszcz",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_WASBUD,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_ENTRY_VAT_RATE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(EMPTY_VAT_RATE)
+      .build();
 
-  public static final Invoice INVOICE_BAD_DISCOUNT_VALUE = new Invoice(
-      14,
-      "sss999121",
-      LocalDate.of(2018, 06, 13),
-      LocalDate.of(2018, 05, 12),
-      "Berlin",
-      CompanyProvider.COMPANY_DRUTEX,
-      CompanyProvider.COMPANY_DISCOUNT_BIGGER_THAN_1,
-      ONE_LINK);
+  public static final Invoice INVOICE_BLANK_ENTRY_QUNTITY = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Lodz")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(EMPTY_QUANTITY)
+      .build();
+
+  public static final Invoice INVOICE_BAD_DISCOUNT_VALUE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Radomsko")
+      .buyer(CompanyProvider.COMPANY_DISCOUNT_BIGGER_THAN_1)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(ONE_LINK)
+      .build();
+
+  public static final Invoice INVOICE_INCORRECT_VAT_RATE = new InvoiceBuilder()
+      .identifier("ss999")
+      .issueDate(LocalDate.of(2018, 06, 13))
+      .saleDate(LocalDate.of(2018, 05, 12))
+      .salePlace("Radomsko")
+      .buyer(CompanyProvider.COMPANY_TRANSPOL)
+      .seller(CompanyProvider.COMPANY_DRUTEX)
+      .entries(INCORRECT_VAT_RATE)
+      .build();
+
 }

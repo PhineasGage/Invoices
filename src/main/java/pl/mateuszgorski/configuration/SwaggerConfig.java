@@ -1,4 +1,4 @@
-package pl.mateuszgorski.configuration;
+package pl.coderstrust.accounting.configuration;
 
 
 import java.util.Collections;

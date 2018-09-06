@@ -1,4 +1,4 @@
-package pl.mateuszgorski.controller;
+package pl.coderstrust.accounting.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -24,6 +24,7 @@ public class NipValidatorTest {
     assertThat(nipValidator.isValid(nip), is(false));
   }
 
+  @SuppressWarnings(value = "unused")
   public Object[] incorrectNip() {
     return new String[]{
         "1234567890",
@@ -42,6 +43,7 @@ public class NipValidatorTest {
     assertThat(nipValidator.isValid(nip), is(true));
   }
 
+  @SuppressWarnings(value = "unused")
   public Object[] correctNip() {
     return new String[]{
         "6780038167",

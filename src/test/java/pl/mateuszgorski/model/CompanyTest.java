@@ -1,4 +1,4 @@
-package pl.mateuszgorski.model;
+package pl.coderstrust.accounting.model;
 
 import static pl.pojo.tester.api.assertion.Assertions.assertPojoMethodsFor;
 
@@ -21,6 +21,4 @@ public class CompanyTest {
         .testing(Method.HASH_CODE)
         .areWellImplemented();
   }
-
-
 }
