@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.model.Invoice;
 
 public interface InvoiceApi {
 

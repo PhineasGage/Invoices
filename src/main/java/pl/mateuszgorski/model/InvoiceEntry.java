@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.model;
+package pl.mateuszgorski.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;

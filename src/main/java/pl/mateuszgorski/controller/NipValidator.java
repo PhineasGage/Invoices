@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

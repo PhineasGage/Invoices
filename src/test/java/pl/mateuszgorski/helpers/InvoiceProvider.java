@@ -1,18 +1,18 @@
-package pl.coderstrust.accounting.helpers;
+package pl.mateuszgorski.helpers;
 
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_DESCRIPTION;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_NET_PRICE;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_QUANTITY;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_VAT_RATE;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.INCORRECT_VAT_RATE;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.ONE_LINK;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP;
-import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP_SUPPORT;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_DESCRIPTION;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_NET_PRICE;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_QUANTITY;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.EMPTY_VAT_RATE;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.INCORRECT_VAT_RATE;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.ONE_LINK;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.SPAN_CLAMP;
+import static pl.mateuszgorski.helpers.InvoiceEntryProvider.SPAN_CLAMP_SUPPORT;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import pl.coderstrust.accounting.model.Invoice;
-import pl.coderstrust.accounting.model.Invoice.InvoiceBuilder;
+import pl.mateuszgorski.model.Invoice;
+import pl.mateuszgorski.model.Invoice.InvoiceBuilder;
 
 public class InvoiceProvider {
 

@@ -1,13 +1,10 @@
-package pl.coderstrust.accounting.helpers;
+package pl.mateuszgorski.helpers;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.Rule;
 import org.junit.rules.ErrorCollector;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.model.Invoice;
 
 public class InvoiceAssertionHelper {
 

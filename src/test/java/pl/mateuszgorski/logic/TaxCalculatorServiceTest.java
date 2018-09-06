@@ -1,21 +1,21 @@
-package pl.coderstrust.accounting.logic;
+package pl.mateuszgorski.logic;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUKPOL;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUTEX;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_TRANSPOL;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_WASBUD;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUKPOL;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUTEX;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_TRANSPOL;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_WASBUD;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 
 import java.math.BigDecimal;
 import org.junit.Test;
-import pl.coderstrust.accounting.controller.NipValidator;
-import pl.coderstrust.accounting.database.impl.memory.InMemoryDatabase;
-import pl.coderstrust.accounting.helpers.CompanyProvider;
+import pl.mateuszgorski.controller.NipValidator;
+import pl.mateuszgorski.database.impl.memory.InMemoryDatabase;
+import pl.mateuszgorski.helpers.CompanyProvider;
 
 public class TaxCalculatorServiceTest {
 

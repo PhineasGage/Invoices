@@ -1,11 +1,11 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.model.InvoiceEntry;
-import pl.coderstrust.accounting.model.VatRate;
+import pl.mateuszgorski.model.InvoiceEntry;
+import pl.mateuszgorski.model.VatRate;
 
 @Service
 public class InvoiceEntryValidator {

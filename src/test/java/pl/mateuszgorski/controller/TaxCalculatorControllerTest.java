@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -6,12 +6,12 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUKPOL;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUTEX;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_WASBUD;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUKPOL;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUTEX;
+import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_WASBUD;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 
 import javax.annotation.PostConstruct;
 import org.junit.Before;
@@ -23,8 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import pl.coderstrust.accounting.helpers.RestTestHelper;
-import pl.coderstrust.accounting.logic.InvoiceService;
+import pl.mateuszgorski.helpers.RestTestHelper;
+import pl.mateuszgorski.logic.InvoiceService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

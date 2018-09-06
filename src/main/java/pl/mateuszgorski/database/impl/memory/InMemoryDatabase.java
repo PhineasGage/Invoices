@@ -1,12 +1,12 @@
-package pl.coderstrust.accounting.database.impl.memory;
+package pl.mateuszgorski.database.impl.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Repository;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.model.Invoice;
 
 
 @Repository

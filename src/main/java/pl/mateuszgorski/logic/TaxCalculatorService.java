@@ -1,12 +1,12 @@
-package pl.coderstrust.accounting.logic;
+package pl.mateuszgorski.logic;
 
 import java.math.BigDecimal;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.controller.NipValidator;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.controller.NipValidator;
+import pl.mateuszgorski.model.Invoice;
 
 @Service
 public class TaxCalculatorService {

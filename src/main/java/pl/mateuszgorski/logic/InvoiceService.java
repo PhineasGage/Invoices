@@ -1,12 +1,12 @@
-package pl.coderstrust.accounting.logic;
+package pl.mateuszgorski.logic;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.model.Invoice;
 
 @Service
 public class InvoiceService {

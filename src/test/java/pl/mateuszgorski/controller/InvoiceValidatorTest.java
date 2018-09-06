@@ -1,35 +1,35 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BAD_DISCOUNT_VALUE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_CITY;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_NAME;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_NIP;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_POSTAL_CODE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_STREET;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_DESCRIPTION;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_NET_PRICE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_QUNTITY;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_VAT_RATE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_IDENTIFIER;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_ISSUE_DATE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SALE_DATE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SALE_PLACE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_CITY;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_NAME;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_NIP;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_POSTAL_CODE;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_STREET;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_EMPTY_ENTRIES;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_INCORRECT_VAT_RATE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BAD_DISCOUNT_VALUE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_CITY;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_NAME;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_NIP;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_POSTAL_CODE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_STREET;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_DESCRIPTION;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_NET_PRICE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_QUNTITY;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_ENTRY_VAT_RATE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_IDENTIFIER;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_ISSUE_DATE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SALE_DATE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SALE_PLACE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_CITY;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_NAME;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_NIP;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_POSTAL_CODE;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_SELLER_STREET;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_EMPTY_ENTRIES;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_INCORRECT_VAT_RATE;
 
 import java.util.List;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.model.Invoice;
 
 @RunWith(JUnitParamsRunner.class)
 public class InvoiceValidatorTest {

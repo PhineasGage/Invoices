@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

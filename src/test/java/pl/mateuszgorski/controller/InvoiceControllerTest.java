@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -11,12 +11,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_CITY;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_IDENTIFIER;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_CITY;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BLANK_IDENTIFIER;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,11 +32,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.coderstrust.accounting.database.impl.file.helpers.InvoiceConverter;
-import pl.coderstrust.accounting.helpers.InvoiceAssertionHelper;
-import pl.coderstrust.accounting.helpers.RestTestHelper;
-import pl.coderstrust.accounting.logic.InvoiceService;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.impl.file.helpers.InvoiceConverter;
+import pl.mateuszgorski.helpers.InvoiceAssertionHelper;
+import pl.mateuszgorski.helpers.RestTestHelper;
+import pl.mateuszgorski.logic.InvoiceService;
+import pl.mateuszgorski.model.Invoice;
 
 
 @RunWith(SpringRunner.class)
