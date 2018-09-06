@@ -1,7 +1,7 @@
-package pl.mateuszgorski.database.impl.memory;
+package pl.coderstrust.accounting.database.impl.memory;
 
-import pl.mateuszgorski.database.Database;
-import pl.mateuszgorski.database.impl.DatabaseTest;
+import pl.coderstrust.accounting.database.Database;
+import pl.coderstrust.accounting.database.impl.DatabaseTest;
 
 public class InMemoryDatabaseTest extends DatabaseTest {
 

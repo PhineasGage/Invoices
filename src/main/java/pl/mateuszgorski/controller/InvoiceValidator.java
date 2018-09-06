@@ -1,18 +1,19 @@
-package pl.mateuszgorski.controller;
+package pl.coderstrust.accounting.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import pl.mateuszgorski.model.Invoice;
-import pl.mateuszgorski.model.InvoiceEntry;
+import pl.coderstrust.accounting.model.Invoice;
 
 @Service
 public class InvoiceValidator {
 
-  // TODO why do you need this declaration? :)
-  public InvoiceValidator() {
+  private CompanyValidator companyValidator;
+  private InvoiceEntryValidator invoiceEntryValidator;
+
+  public InvoiceValidator(CompanyValidator companyValidator, InvoiceEntryValidator invoiceEntryValidator) {
+    this.companyValidator = companyValidator;
+    this.invoiceEntryValidator = invoiceEntryValidator;
   }
 
   List<String> validate(Invoice invoice) {
@@ -34,78 +35,10 @@ public class InvoiceValidator {
       validationErrors.add("Sale place not found");
     }
 
-    // TODO please split this class into multiple validators - e.g. Company validator and InvoiceEntry Valiator
-    if (invoice.getBuyer().getName() == null || invoice.getBuyer().getName().equals("")) {
-      validationErrors.add("Buyer name not found");
-    }
+    validationErrors.addAll(companyValidator.validate(invoice.getSeller(), "Seller"));
+    validationErrors.addAll(companyValidator.validate(invoice.getBuyer(), "Buyer"));
+    validationErrors.addAll(invoiceEntryValidator.validate(invoice.getEntries()));
 
-    if (invoice.getBuyer().getNip() == null || invoice.getBuyer().getNip().equals("")) {
-      validationErrors.add("Buyer nip not found");
-    }
-
-    // TODO why don't you validate NIP correctness
-
-    if (invoice.getBuyer().getStreet() == null || invoice.getBuyer().getStreet().equals("")) {
-      validationErrors.add("Buyer street not found");
-    }
-
-    if (invoice.getBuyer().getPostalCode() == null || invoice.getBuyer().getPostalCode()
-        .equals("")) {
-      validationErrors.add("Buyer postal code not found");
-    }
-
-    if (invoice.getBuyer().getCity() == null || invoice.getBuyer().getCity().equals("")) {
-      validationErrors.add("Buyer city not found");
-    }
-
-    if (invoice.getBuyer().getDiscount().compareTo(BigDecimal.ONE) > 0) {
-      validationErrors.add("Bad value of discount");
-    }
-
-    if (invoice.getSeller().getName() == null || invoice.getSeller().getName().equals("")) {
-      validationErrors.add("Seller name not found");
-    }
-
-    if (invoice.getSeller().getNip() == null || invoice.getSeller().getNip().equals("")) {
-      validationErrors.add("Seller nip not found");
-    }
-    // TODO why don't you validate NIP correctness
-
-    if (invoice.getSeller().getStreet() == null || invoice.getSeller().getStreet().equals("")) {
-      validationErrors.add("Seller street not found");
-    }
-
-    if (invoice.getSeller().getPostalCode() == null || invoice.getSeller().getPostalCode()
-        .equals("")) {
-      validationErrors.add("Seller postal code not found");
-    }
-
-    if (invoice.getSeller().getCity() == null || invoice.getSeller().getCity().equals("")) {
-      validationErrors.add("Seller city not found");
-    }
-
-    if (invoice.getSeller().getDiscount().compareTo(BigDecimal.ONE) > 0) {
-      validationErrors.add("Bad value of discount"); // TODO bad can be behavior, value can be incorrect :)
-    }
-
-    if (invoice.getEntries().equals(Collections.emptyList())) {
-      validationErrors.add("Entries not found");
-    }
-
-    for (InvoiceEntry entry : invoice.getEntries()) {
-      if (entry.getDescription() == null || entry.getDescription().equals("")) {
-        validationErrors.add("Entry description not found");
-      }
-      if (entry.getNetPrice() == null) {
-        validationErrors.add("Net price for entry not found");
-      }
-      if (entry.getQuantity() == null) {
-        validationErrors.add("Quantity for entry not found");
-      }
-      if (entry.getVatRate() == null) {
-        validationErrors.add("Vat rate for entry not found");
-      }
-    }
     return validationErrors;
   }
 }

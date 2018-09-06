@@ -1,33 +1,30 @@
-package pl.mateuszgorski.controller;
+package pl.coderstrust.accounting.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUKPOL;
-import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_DRUTEX;
-import static pl.mateuszgorski.helpers.CompanyProvider.COMPANY_WASBUD;
-import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_BYDGOSZCZ_2018;
-import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_GRUDZIADZ_2017;
-import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_KRAKOW_2018;
+import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUKPOL;
+import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUTEX;
+import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_WASBUD;
+import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
+import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import javax.annotation.PostConstruct;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import pl.mateuszgorski.logic.InvoiceService;
-import pl.mateuszgorski.model.Invoice;
-import pl.mateuszgorski.configuration.JacksonProvider;
+import pl.coderstrust.accounting.helpers.RestTestHelper;
+import pl.coderstrust.accounting.logic.InvoiceService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,17 +32,22 @@ import pl.mateuszgorski.configuration.JacksonProvider;
 public class TaxCalculatorControllerTest {
 
   private static final String TAX_CALCULATOR_SERVICE_PATH = "/taxcalculator";
-  private static final String INVOICE_SERVICE_PATH = "/invoices";
-  private static final MediaType JSON_CONTENT_TYPE = MediaType.APPLICATION_JSON_UTF8;
-
-  @Autowired
-  private InvoiceService invoiceService;
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
+  private InvoiceService invoiceService;
+
+  @Autowired
   private TaxCalculatorController taxCalculatorController;
+
+  private RestTestHelper restTestHelper;
+
+  @PostConstruct
+  public void postConstruct() {
+    restTestHelper = new RestTestHelper(mockMvc);
+  }
 
   @Before
   public void beforeMethod() {
@@ -53,20 +55,20 @@ public class TaxCalculatorControllerTest {
   }
 
   @Test
-  public void contexLoads() throws Exception {
+  public void contexLoads() {
     assertThat(taxCalculatorController, is(notNullValue()));
   }
 
   @Test
   public void shouldGetIncome() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_KRAKOW_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
 
     //when
 
     //then
     MvcResult result = mockMvc
-        .perform(get(TAX_CALCULATOR_SERVICE_PATH + "/Income/" + COMPANY_DRUTEX.getNip()))
+        .perform(get(TAX_CALCULATOR_SERVICE_PATH + "/income/" + COMPANY_DRUTEX.getNip()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", is(138.0)))
         .andReturn();
@@ -75,8 +77,8 @@ public class TaxCalculatorControllerTest {
   @Test
   public void shouldGetTaxDue() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_KRAKOW_2018);
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_BYDGOSZCZ_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
 
     //when
 
@@ -84,15 +86,15 @@ public class TaxCalculatorControllerTest {
     MvcResult result = mockMvc
         .perform(get(TAX_CALCULATOR_SERVICE_PATH + "/TaxDue/" + COMPANY_DRUTEX.getNip()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", is(19.2)))
+        .andExpect(jsonPath("$", is(22.314)))
         .andReturn();
   }
 
   @Test
   public void shouldGetTaxIncluded() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_GRUDZIADZ_2017);
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_BYDGOSZCZ_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
 
     //when
 
@@ -100,15 +102,15 @@ public class TaxCalculatorControllerTest {
     MvcResult result = mockMvc
         .perform(get(TAX_CALCULATOR_SERVICE_PATH + "/TaxIncluded/" + COMPANY_DRUKPOL.getNip()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", is(11.592)))
+        .andExpect(jsonPath("$", is(10.332)))
         .andReturn();
   }
 
   @Test
   public void shouldGetCosts() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_GRUDZIADZ_2017);
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_BYDGOSZCZ_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
 
     //when
 
@@ -123,8 +125,8 @@ public class TaxCalculatorControllerTest {
   @Test
   public void shouldGetProfit() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_GRUDZIADZ_2017);
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_BYDGOSZCZ_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
 
     //when
 
@@ -139,8 +141,8 @@ public class TaxCalculatorControllerTest {
   @Test
   public void shouldGetVatPayable() throws Exception {
     //given
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_GRUDZIADZ_2017);
-    callRestServiceToAddInvoiceAndReturnId(INVOICE_BYDGOSZCZ_2018);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
+    restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
 
     //when
 
@@ -148,30 +150,7 @@ public class TaxCalculatorControllerTest {
     MvcResult result = mockMvc
         .perform(get(TAX_CALCULATOR_SERVICE_PATH + "/VatPayable/" + COMPANY_WASBUD.getNip()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$", is(11.592)))
+        .andExpect(jsonPath("$", is(5.418)))
         .andReturn();
-  }
-
-  // TODO return value is never used - maybe you can simplify the method
-  // TODO duplicate with InvoiceControllerTest - maybe you can move it to some kind of helper? :)
-  private int callRestServiceToAddInvoiceAndReturnId(Invoice invoice) throws Exception {
-    String response =
-        mockMvc
-            .perform(post(INVOICE_SERVICE_PATH)
-                .content(convertToJson(invoice))
-                .contentType(JSON_CONTENT_TYPE))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse().getContentAsString();
-    return Integer.parseInt(response);
-  }
-
-  private String convertToJson(Object object) {
-    try {
-      return JacksonProvider.getObjectMapper().writeValueAsString(object);
-    } catch (JsonProcessingException exception) {
-      exception.printStackTrace();
-    }
-    return null; // TODO maybe "" ? :)
   }
 }

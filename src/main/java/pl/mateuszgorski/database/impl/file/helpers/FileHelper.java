@@ -1,4 +1,4 @@
-package pl.mateuszgorski.database.impl.file.helpers;
+package pl.coderstrust.accounting.database.impl.file.helpers;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,7 +18,7 @@ public class FileHelper {
 
   private File databaseFile;
 
-  public FileHelper(@Value("${filePath}") String path) { // TODO you don't inject from property file - ${} missing :)
+  public FileHelper(@Value("${filePath}") String path) {
     this.databaseFile = new File(path);
   }
 
@@ -27,34 +27,34 @@ public class FileHelper {
       bufferedWriter.write(string);
       bufferedWriter.newLine();
     } catch (IOException exception) {
-      throw new RuntimeException("Unable to write to a file"); // TODO ALWAYS when catching exception and throwing new one you should be
+      throw new RuntimeException("Unable to write to a file", exception);
       // exception chaining - just pass first exception as argument to second one.
     }
   }
 
-  public List<String> lines() { // TODO not good name - maybe readLines() ? or getLines() ?
+  public List<String> readLines() {
     if (!databaseFile.exists()) {
       return new ArrayList<>();
     }
     try {
       return Files.lines(databaseFile.toPath()).collect(Collectors.toList());
     } catch (IOException exception) {
-      throw new RuntimeException("Unable to read a file"); // TODO - as above, please correct everywhere.
+      throw new RuntimeException("Unable to read a file", exception);
     }
   }
 
-  public void replaceFileContent(List<String> invoices) {
+  public boolean replaceFileContent(List<String> invoices) {
     File tempFile = new File(databaseFile.getName() + ".tmp");
     try {
       Files.copy(databaseFile.toPath(), tempFile.toPath());
     } catch (IOException exception) {
-      throw new RuntimeException("cannot copy temporary file content");
+      throw new RuntimeException("cannot copy temporary file content", exception);
     }
     clearDatabaseFile();
     for (String json : invoices) {
       writeInvoice(json);
     }
-    tempFile.delete(); // TODO why do you ignore result of delete() ? :)
+    return tempFile.delete();
   }
 
 

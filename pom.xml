@@ -16,6 +16,19 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jackson.version>2.9.6</jackson.version>
+    <maven-compiler-plugin>3.7.0</maven-compiler-plugin>
+    <maven-checkstyle-plugin>3.0.0</maven-checkstyle-plugin>
+    <jacoco-maven-plugin>0.7.9</jacoco-maven-plugin>
+    <junit-jupiter-api>5.2.0</junit-jupiter-api>
+    <JUnitParams>1.0.4</JUnitParams>
+    <mockito-core>2.10.0</mockito-core>
+    <hamcrest-all>1.3</hamcrest-all>
+    <pojo-tester>0.7.6</pojo-tester>
+    <commons-lang3>3.7</commons-lang3>
+    <commons-lang>2.6</commons-lang>
+    <springfox-swagger2>2.7.0</springfox-swagger2>
+
   </properties>
 
   <build>
@@ -23,7 +36,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>${maven-checkstyle-plugin}</version>
         <executions>
           <execution>
             <id>verify</id>
@@ -49,7 +62,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>${maven-compiler-plugin}</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -58,7 +71,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.9</version>
+        <version>${jacoco-maven-plugin}</version>
         <executions>
           <execution>
             <id>jacoco-report</id>
@@ -111,49 +124,49 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version> <!-- TODO let's switch to JUnit5 -->
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit-jupiter-api}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>pl.pragmatists</groupId>
       <artifactId>JUnitParams</artifactId>
-      <version>1.0.4</version>
+      <version>${JUnitParams}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId> <!-- you should use mockito core -->
-      <artifactId>mockito-all</artifactId>
-      <version>1.10.19</version>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito-core}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>java-hamcrest</artifactId>
-      <version>2.0.0.0</version>
+      <artifactId>hamcrest-all</artifactId>
+      <version>${hamcrest-all}</version>
       <scope>test</scope>
     </dependency>
     <dependency> <!-- if we use pojo tester then we should increase coverage to 80% (branch) -->
       <groupId>pl.pojo</groupId>
       <artifactId>pojo-tester</artifactId>
-      <version>0.7.6</version>
+      <version>${pojo-tester}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.9.6</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.9.6</version> <!-- TODO it's good practice to extract version to variable -->
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.7</version>
+      <version>${commons-lang3}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -164,21 +177,31 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-library</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
+      <version>${commons-lang}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
-      <version>2.7.0</version>
+      <version>${springfox-swagger2}</version>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.7.0</version>
+      <version>${springfox-swagger2}</version>
     </dependency>
   </dependencies>
 </project>

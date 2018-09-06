@@ -1,4 +1,4 @@
-package pl.mateuszgorski.model;
+package pl.coderstrust.accounting.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,9 +7,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.stereotype.Repository;
 
-@Repository // TODO what?? Why do you mark POJO as repository?
 @ApiModel(value = "Company", description = "Model for the Company")
 public class Company {
 
@@ -34,14 +32,13 @@ public class Company {
   public Company() {
   }
 
-  public Company(String name, String nip, String street, String postalCode, String city,
-      BigDecimal discount) {
-    this.name = name;
-    this.nip = nip;
-    this.street = street;
-    this.postalCode = postalCode;
-    this.city = city;
-    this.discount = discount;
+  public Company(Company company) {
+    this.name = company.name;
+    this.nip = company.nip;
+    this.street = company.street;
+    this.postalCode = company.postalCode;
+    this.city = company.city;
+    this.discount = company.discount;
   }
 
   public String getName() {
@@ -130,5 +127,44 @@ public class Company {
   public String toString() {
     return ReflectionToStringBuilder.toString(this,
         ToStringStyle.MULTI_LINE_STYLE, true, true);
+  }
+
+  public static class CompanyBuilder {
+
+    Company company = new Company();
+
+    public CompanyBuilder name(String name) {
+      company.name = name;
+      return this;
+    }
+
+    public CompanyBuilder nip(String nip) {
+      company.nip = nip;
+      return this;
+    }
+
+    public CompanyBuilder street(String street) {
+      company.street = street;
+      return this;
+    }
+
+    public CompanyBuilder postalCode(String postalCode) {
+      company.postalCode = postalCode;
+      return this;
+    }
+
+    public CompanyBuilder city(String city) {
+      company.city = city;
+      return this;
+    }
+
+    public CompanyBuilder discount(BigDecimal discount) {
+      company.discount = discount;
+      return this;
+    }
+
+    public Company build() {
+      return company;
+    }
   }
 }

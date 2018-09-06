@@ -1,4 +1,4 @@
-package pl.mateuszgorski.configuration;
+package pl.coderstrust.accounting.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
