@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.database.impl.file.helpers;
+package pl.mateuszgorski.database.impl.file.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.model.Invoice;
 
 @Service
 public class InvoiceConverter {

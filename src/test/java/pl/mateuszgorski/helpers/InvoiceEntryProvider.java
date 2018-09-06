@@ -1,10 +1,10 @@
-package pl.coderstrust.accounting.helpers;
+package pl.mateuszgorski.helpers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import pl.coderstrust.accounting.model.InvoiceEntry;
+import pl.mateuszgorski.model.InvoiceEntry;
 
 
 public class InvoiceEntryProvider {

@@ -1,13 +1,13 @@
-package pl.coderstrust.accounting.database.impl.file;
+package pl.mateuszgorski.database.impl.file;
 
 
 import org.junit.Before;
-import pl.coderstrust.accounting.configuration.JacksonProvider;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.database.impl.DatabaseTest;
-import pl.coderstrust.accounting.database.impl.file.helpers.FileHelper;
-import pl.coderstrust.accounting.database.impl.file.helpers.IndexHelper;
-import pl.coderstrust.accounting.database.impl.file.helpers.InvoiceConverter;
+import pl.mateuszgorski.configuration.JacksonProvider;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.database.impl.DatabaseTest;
+import pl.mateuszgorski.database.impl.file.helpers.FileHelper;
+import pl.mateuszgorski.database.impl.file.helpers.IndexHelper;
+import pl.mateuszgorski.database.impl.file.helpers.InvoiceConverter;
 
 
 public class InFileDatabaseTest extends DatabaseTest {

@@ -1,14 +1,14 @@
-package pl.coderstrust.accounting.helpers;
+package pl.mateuszgorski.helpers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pl.coderstrust.accounting.configuration.JacksonProvider.getObjectMapper;
+import static pl.mateuszgorski.configuration.JacksonProvider.getObjectMapper;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.coderstrust.accounting.database.impl.file.helpers.InvoiceConverter;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.impl.file.helpers.InvoiceConverter;
+import pl.mateuszgorski.model.Invoice;
 
 public class RestTestHelper {
 

@@ -1,7 +1,7 @@
-package pl.coderstrust.accounting.helpers;
+package pl.mateuszgorski.helpers;
 
 import java.math.BigDecimal;
-import pl.coderstrust.accounting.model.Company;
+import pl.mateuszgorski.model.Company;
 
 public class CompanyProvider {
 

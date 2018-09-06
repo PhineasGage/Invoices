@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import io.swagger.annotations.Api;
 import java.time.LocalDate;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderstrust.accounting.logic.InvoiceService;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.logic.InvoiceService;
+import pl.mateuszgorski.model.Invoice;
 
 @RequestMapping("/invoices")
 @RestController

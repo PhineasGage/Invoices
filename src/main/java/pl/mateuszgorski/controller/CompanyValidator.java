@@ -1,10 +1,10 @@
-package pl.coderstrust.accounting.controller;
+package pl.mateuszgorski.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.model.Company;
+import pl.mateuszgorski.model.Company;
 
 @Service
 public class CompanyValidator {

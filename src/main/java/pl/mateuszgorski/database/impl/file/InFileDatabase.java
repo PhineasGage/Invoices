@@ -1,14 +1,14 @@
-package pl.coderstrust.accounting.database.impl.file;
+package pl.mateuszgorski.database.impl.file;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.database.impl.file.helpers.FileHelper;
-import pl.coderstrust.accounting.database.impl.file.helpers.IndexHelper;
-import pl.coderstrust.accounting.database.impl.file.helpers.InvoiceConverter;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.database.impl.file.helpers.FileHelper;
+import pl.mateuszgorski.database.impl.file.helpers.IndexHelper;
+import pl.mateuszgorski.database.impl.file.helpers.InvoiceConverter;
+import pl.mateuszgorski.model.Invoice;
 
 @Primary
 @Repository

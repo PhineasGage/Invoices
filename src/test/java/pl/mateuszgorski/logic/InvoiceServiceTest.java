@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.logic;
+package pl.mateuszgorski.logic;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,11 +8,11 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_LINK_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.model.Invoice;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InvoiceServiceTest {

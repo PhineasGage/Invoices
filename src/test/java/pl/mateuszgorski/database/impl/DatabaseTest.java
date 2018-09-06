@@ -1,17 +1,16 @@
-package pl.coderstrust.accounting.database.impl;
+package pl.mateuszgorski.database.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
-
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
+import static pl.mateuszgorski.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 
 import java.util.List;
 import org.junit.Test;
-import pl.coderstrust.accounting.database.Database;
-import pl.coderstrust.accounting.helpers.InvoiceAssertionHelper;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.database.Database;
+import pl.mateuszgorski.helpers.InvoiceAssertionHelper;
+import pl.mateuszgorski.model.Invoice;
 
 public abstract class DatabaseTest {
 

@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.model;
+package pl.mateuszgorski.model;
 
 import static pl.pojo.tester.api.assertion.Assertions.assertPojoMethodsFor;
 

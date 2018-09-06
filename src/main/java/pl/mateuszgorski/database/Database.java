@@ -1,7 +1,7 @@
-package pl.coderstrust.accounting.database;
+package pl.mateuszgorski.database;
 
 import java.util.List;
-import pl.coderstrust.accounting.model.Invoice;
+import pl.mateuszgorski.model.Invoice;
 
 public interface Database {
 

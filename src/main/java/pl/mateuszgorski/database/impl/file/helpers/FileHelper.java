@@ -1,4 +1,4 @@
-package pl.coderstrust.accounting.database.impl.file.helpers;
+package pl.mateuszgorski.database.impl.file.helpers;
 
 import java.io.BufferedWriter;
 import java.io.File;
