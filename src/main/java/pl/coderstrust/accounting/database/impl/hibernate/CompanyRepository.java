@@ -1,0 +1,10 @@
+package pl.coderstrust.accounting.database.impl.hibernate;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import pl.coderstrust.accounting.model.Company;
+
+@Repository
+public interface CompanyRepository extends CrudRepository<Company, Integer> {
+
+}
