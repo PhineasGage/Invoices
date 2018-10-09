@@ -14,10 +14,12 @@ import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_TRANSPOL
 import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_WASBUD;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -84,7 +86,6 @@ public class CompanyServiceTest {
     COMPANY_DRUKPOL.setId(3); //todo why in invoiceServiceTest it is working without this ?
 
     int id = COMPANY_DRUKPOL.getId();
-    System.out.println(id);
 
     when(databaseMock.getItems()).thenReturn(companies);
 
@@ -162,5 +163,29 @@ public class CompanyServiceTest {
 
     //when
     companyService.saveCompany(company);
+  }
+
+  @Test
+  public void shouldThrowExceptionCausedByMissingCompanyWithProvidedNip() {
+    //given
+    String nip = COMPANY_DRUKPOL.getNip();
+    expectedEx.expect(IllegalStateException.class);
+    expectedEx.expectMessage("Company with nip: " + nip + " does not exist");
+
+    //when
+    companyService.getCompanyByNip(nip);
+  }
+
+  @Test
+  public void shouldReturnCompanyByNip() {
+    //given
+    when(databaseMock.getItems()).thenReturn(Arrays.asList(COMPANY_DRUTEX, COMPANY_WASBUD, COMPANY_TRANSPOL));
+
+    //when
+    Optional<Company> actualCompany = companyService.getCompanyByNip(COMPANY_TRANSPOL.getNip());
+
+    //then
+    Assertions.assertTrue(actualCompany.isPresent());
+    assertThat(actualCompany.get(), is(COMPANY_TRANSPOL));
   }
 }

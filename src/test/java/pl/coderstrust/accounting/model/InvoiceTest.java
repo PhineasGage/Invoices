@@ -3,31 +3,19 @@ package pl.coderstrust.accounting.model;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
-import static pl.coderstrust.accounting.helpers.BigDecimalProvider.createBigDecimal;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.CLAMP;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SUPPORT;
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
-import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_SPAN_CLAMP_2017;
 import static pl.pojo.tester.api.assertion.Assertions.assertPojoMethodsFor;
 
-import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Test;
 import pl.coderstrust.accounting.model.Invoice.InvoiceBuilder;
 import pl.pojo.tester.api.assertion.Method;
 
 public class InvoiceTest {
-
-  @Test
-  public void shouldCalculateNetValue() {
-    //when
-    BigDecimal actual = INVOICE_WASBUD_SPAN_CLAMP_2017.getTotalNetValue().setScale(2, BigDecimal.ROUND_HALF_UP);
-    BigDecimal expected = createBigDecimal(50.4);
-
-    //then
-    assertThat(actual, is(expected));
-  }
 
   @Test
   public void returnsListOfEntries() {
@@ -46,6 +34,13 @@ public class InvoiceTest {
   public void addEntryToList() {
     //given
     Invoice invoice = new InvoiceBuilder()
+        .identifier("")
+        .issueDate(null)
+        .saleDate(null)
+        .salePlace("")
+        .buyer(null)
+        .seller(null)
+        .entries(EMPTY)
         .build();
 
     //when

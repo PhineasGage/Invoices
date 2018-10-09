@@ -27,8 +27,8 @@ public class InvoiceMapper implements RowMapper<Invoice> {
     int idBuyer = resultSet.getInt("buyer_id");
     int idSeller = resultSet.getInt("seller_id");
     String companyQuery = SELECT_ALL_FROM_COMPANY_GIVEN_ID;
-    Company buyer = jdbcTemplate.query(companyQuery + idBuyer, new CompanyMapper<Company>()).get(0);
-    Company seller = jdbcTemplate.query(companyQuery + idSeller, new CompanyMapper<Company>()).get(0);
+    Company buyer = jdbcTemplate.query(companyQuery + idBuyer, new CompanyMapper<Company>(jdbcTemplate)).get(0);
+    Company seller = jdbcTemplate.query(companyQuery + idSeller, new CompanyMapper<Company>(jdbcTemplate)).get(0);
     String invoiceEntryQuery = SELECT_FROM_iNVOICE_ENTRY_GIVEN_iNVOICE_ID + resultSet.getInt("Id");
     List<InvoiceEntry> entries = jdbcTemplate.query(invoiceEntryQuery, new InvoiceEntryMapper());
     return new Invoice.InvoiceBuilder()

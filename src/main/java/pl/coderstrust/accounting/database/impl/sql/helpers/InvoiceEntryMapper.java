@@ -15,6 +15,7 @@ public class InvoiceEntryMapper implements RowMapper<InvoiceEntry> {
         .netPrice(resultSet.getBigDecimal("net_price"))
         .vatRate(resultSet.getBigDecimal("vat_rate"))
         .quantity(resultSet.getBigDecimal("quantity"))
+        .category(resultSet.getString("category"))
         .build();
   }
 }

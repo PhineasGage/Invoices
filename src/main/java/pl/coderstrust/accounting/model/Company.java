@@ -3,10 +3,17 @@ package pl.coderstrust.accounting.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -20,7 +27,7 @@ public class Company implements ItemsForDatabase<Company> {
 
   @ApiModelProperty(value = "id assigned by database", example = "1")
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @ApiModelProperty(value = "Name of the Company", example = "Poldim SA")
@@ -41,6 +48,14 @@ public class Company implements ItemsForDatabase<Company> {
   @ApiModelProperty(value = "BigDecimal, discount", example = "0.1")
   private BigDecimal discount;
 
+  @ApiModelProperty(value = "Tax type", example = "LINEAR")
+  @Enumerated(EnumType.STRING)
+  private TaxType taxType;
+
+  @ApiModelProperty(value = "Boolean, isPersonalUsageOfCar", example = "true")
+  @Column(name = "IS_ACTIVE", columnDefinition = "boolean default true", nullable = false)
+  private Boolean isPersonalUsageOfCar;
+
   public Company() {
   }
 
@@ -51,6 +66,8 @@ public class Company implements ItemsForDatabase<Company> {
     this.postalCode = company.postalCode;
     this.city = company.city;
     this.discount = company.discount;
+    this.taxType = company.taxType;
+    this.isPersonalUsageOfCar = company.isPersonalUsageOfCar;
   }
 
   public int getId() {
@@ -114,6 +131,22 @@ public class Company implements ItemsForDatabase<Company> {
     this.discount = discount;
   }
 
+  public TaxType getTaxType() {
+    return taxType;
+  }
+
+  public void setTaxType(TaxType taxType) {
+    this.taxType = taxType;
+  }
+
+  public Boolean getIsPersonalUsageOfCar() {
+    return isPersonalUsageOfCar;
+  }
+
+  public void setPersonalUsageOfCar(Boolean isPersonalUsageOfCar) {
+    this.isPersonalUsageOfCar = isPersonalUsageOfCar;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) {
@@ -134,6 +167,8 @@ public class Company implements ItemsForDatabase<Company> {
         .append(postalCode, company.postalCode)
         .append(city, company.city)
         .append(discount, company.discount)
+        .append(taxType, company.taxType)
+        .append(isPersonalUsageOfCar, company.isPersonalUsageOfCar)
         .isEquals();
   }
 
@@ -147,6 +182,8 @@ public class Company implements ItemsForDatabase<Company> {
         .append(postalCode)
         .append(city)
         .append(discount)
+        .append(taxType)
+        .append(isPersonalUsageOfCar)
         .toHashCode();
   }
 
@@ -192,6 +229,16 @@ public class Company implements ItemsForDatabase<Company> {
 
     public CompanyBuilder discount(BigDecimal discount) {
       company.discount = discount;
+      return this;
+    }
+
+    public CompanyBuilder taxType(TaxType taxType) {
+      company.taxType = taxType;
+      return this;
+    }
+
+    public CompanyBuilder isPersonalUsageOfCar(boolean isPersonalUsageOfCar) {
+      company.isPersonalUsageOfCar = isPersonalUsageOfCar;
       return this;
     }
 

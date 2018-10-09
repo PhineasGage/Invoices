@@ -11,9 +11,8 @@ import pl.coderstrust.accounting.model.Invoice;
 
 public class InFileDatabaseTest extends DatabaseTest {
 
-  InvoiceRepository invoiceRepository;
-
-  JdbcTemplate jdbcTemplate;
+  private InvoiceRepository invoiceRepository;
+  private JdbcTemplate jdbcTemplate;
 
   private InFileDatabase<Invoice> inFileDatabase = (InFileDatabase) DatabaseProvider.provideInvoiceDatabase(
       "InFileDatabase",

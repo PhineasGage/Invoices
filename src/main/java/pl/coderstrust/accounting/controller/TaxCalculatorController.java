@@ -3,6 +3,7 @@ package pl.coderstrust.accounting.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,5 +69,21 @@ public class TaxCalculatorController {
   @GetMapping("/VatPayable/{nip}")
   public BigDecimal getVatPayable(@PathVariable(name = "nip", required = true) String nip) {
     return taxCalculatorService.getVatPayable(nip).setScale(2, BigDecimal.ROUND_HALF_UP);
+  }
+
+  @ApiOperation(value = "Gets final income taxes",
+      notes = "Calculate final value of income taxes",
+      response = BigDecimal.class)
+  @GetMapping("/FinalIncomeTaxes/{nip}")
+  public BigDecimal getFinalIncomeTaxes(@PathVariable(name = "nip", required = true) String nip) {
+    return taxCalculatorService.finalIncomeTax(nip);
+  }
+
+  @ApiOperation(value = "Gets Income Taxes details",
+      notes = "Display all calculated components of the Income Taxes",
+      response = Map.class)
+  @GetMapping("/IncomeTaxesDetails/{nip}")
+  public Map<String, BigDecimal> getIncomTaxesDetails(@PathVariable(name = "nip", required = true) String nip) {
+    return taxCalculatorService.returnTaxCalculationDetails(nip);
   }
 }

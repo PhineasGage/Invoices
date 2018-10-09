@@ -4,7 +4,6 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.core.Is.is;
 
 import com.jayway.restassured.http.ContentType;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -25,14 +24,14 @@ public class PostMethodTest implements Data {
           .contentType(ContentType.JSON)
           .body(invoice)
           .post(invoicesUrl).thenReturn().body().print();
-      //        invoices.get(i).setId(Integer.valueOf(id));   TODO after merge project to master
+      invoice.setId(Integer.valueOf(id));
     }
   }
 
   @Test
   public void verifyAllFieldsOfInvoiceWhenPostAndThenGet() {
     for (int j = 0; j < invoices.size(); j++) {
-      //    int id = invoice.getId(); TODO after merge project to master
+      int id = invoices.get(j).getId();
       String identifier = invoices.get(j).getIdentifier();
       String issueDate = invoices.get(j).getIssueDate().toString();
       String saleDate = invoices.get(j).getSaleDate().toString();
@@ -55,7 +54,7 @@ public class PostMethodTest implements Data {
       int entriesSize = invoices.get(j).getEntries().size();
 
       given().when().get(invoicesUrl).then()
-          //   .body("[" + j + "].id", is(id)) TODO after merge project to master
+          .body("[" + j + "].id", is(id))
           .body("[" + j + "].identifier", is(identifier))
           .body("[" + j + "].issueDate", is(issueDate))
           .body("[" + j + "].saleDate", is(saleDate))
@@ -97,6 +96,3 @@ public class PostMethodTest implements Data {
         .body("$.size()", is(invoices.size()));
   }
 }
-
-
-

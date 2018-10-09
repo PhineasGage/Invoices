@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.coderstrust.accounting.model.Invoice;
 import pl.coderstrust.accounting.model.ItemsForDatabase;
 
 public class ItemConverter<T extends ItemsForDatabase> {

@@ -7,5 +7,4 @@ public interface ItemsForDatabase<T> {
   void setId(int id);
 
   T makeDeepCopy(T item);
-
 }

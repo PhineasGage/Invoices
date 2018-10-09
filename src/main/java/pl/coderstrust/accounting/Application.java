@@ -7,8 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.coderstrust.accounting.database.impl.hibernate.CompanyRepository;
+import pl.coderstrust.accounting.database.impl.hibernate.InsuranceRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InvoiceRepository;
-
 
 @SpringBootApplication
 public class Application {
@@ -20,10 +20,11 @@ public class Application {
   }
 
   @Bean
-  public CommandLineRunner demo(InvoiceRepository repository, CompanyRepository companyRepository) {
+  public CommandLineRunner demo(InvoiceRepository invoiceRepository, CompanyRepository companyRepository, InsuranceRepository insuranceRepository) {
     return (args) -> {
-      repository.deleteAll();
+      invoiceRepository.deleteAll();
       companyRepository.deleteAll();
+      insuranceRepository.deleteAll();
     };
   }
 }

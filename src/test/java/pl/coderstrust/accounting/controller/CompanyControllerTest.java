@@ -36,7 +36,6 @@ import pl.coderstrust.accounting.helpers.RestTestHelper;
 import pl.coderstrust.accounting.logic.CompanyService;
 import pl.coderstrust.accounting.model.Company;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc

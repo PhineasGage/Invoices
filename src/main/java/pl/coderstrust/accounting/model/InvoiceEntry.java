@@ -21,7 +21,7 @@ import pl.coderstrust.accounting.model.Invoice.InvoiceBuilder;
 public class InvoiceEntry {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @ApiModelProperty(value = "Description of entry", example = "Clamp")
@@ -35,6 +35,8 @@ public class InvoiceEntry {
 
   @ApiModelProperty(value = "quantity", example = "10")
   private BigDecimal quantity;
+
+  public String category;
 
   public int getId() {
     return id;
@@ -52,6 +54,7 @@ public class InvoiceEntry {
     this.netPrice = invoiceEntry.netPrice;
     this.vatRate = invoiceEntry.vatRate;
     this.quantity = invoiceEntry.quantity;
+    this.category = invoiceEntry.category;
   }
 
   public String getDescription() {
@@ -86,6 +89,14 @@ public class InvoiceEntry {
     this.quantity = quantity;
   }
 
+  public String getCategory() {
+    return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
   @Override
   public boolean equals(Object invoiceEntry) {
     if (this == invoiceEntry) {
@@ -103,6 +114,7 @@ public class InvoiceEntry {
         .append(netPrice, that.netPrice)
         .append(vatRate, that.vatRate)
         .append(quantity, that.quantity)
+        .append(category, that.category)
         .isEquals();
   }
 
@@ -158,6 +170,11 @@ public class InvoiceEntry {
 
     public InvoiceEntryBuilder quantity(BigDecimal quantity) {
       invoiceEntry.quantity = quantity;
+      return this;
+    }
+
+    public InvoiceEntryBuilder category(String category) {
+      invoiceEntry.category = category;
       return this;
     }
 

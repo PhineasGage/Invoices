@@ -14,16 +14,18 @@ public class InvoiceEntryProvider {
 
   public static final InvoiceEntry SPAN = new InvoiceEntryBuilder()
       .description("span")
-      .netPrice(createBigDecimal(10))
+      .netPrice(createBigDecimal(100))
       .vatRate(VatRate.NORMAL.getVatRateValue())
       .quantity(createBigDecimal(6))
+      .category("car")
       .build();
 
   public static final InvoiceEntry CLAMP = new InvoiceEntryBuilder()
       .description("clamp")
       .netPrice(createBigDecimal(6))
       .vatRate(VatRate.NORMAL.getVatRateValue())
-      .quantity(createBigDecimal(2))
+      .quantity(createBigDecimal(20))
+      .category("noCar")
       .build();
 
   public static final InvoiceEntry SUPPORT = new InvoiceEntryBuilder()
@@ -31,6 +33,7 @@ public class InvoiceEntryProvider {
       .netPrice(createBigDecimal(11))
       .vatRate(VatRate.REDUCED_4.getVatRateValue())
       .quantity(createBigDecimal(6))
+      .category("noCar")
       .build();
 
   public static final InvoiceEntry LINK = new InvoiceEntryBuilder()
@@ -38,6 +41,15 @@ public class InvoiceEntryProvider {
       .netPrice(createBigDecimal(13))
       .vatRate(VatRate.REDUCED_7.getVatRateValue())
       .quantity(createBigDecimal(6))
+      .category("noCar")
+      .build();
+
+  public static final InvoiceEntry CAR_FUEL = new InvoiceEntry.InvoiceEntryBuilder()
+      .description("car_fuel")
+      .netPrice(createBigDecimal(13))
+      .vatRate(createBigDecimal(0.07))
+      .quantity(createBigDecimal(10))
+      .category("car")
       .build();
 
   public static final InvoiceEntry BLANK_DESCRIPTION = new InvoiceEntryBuilder()
@@ -45,6 +57,7 @@ public class InvoiceEntryProvider {
       .netPrice(createBigDecimal(13))
       .vatRate(VatRate.ZERO.getVatRateValue())
       .quantity(createBigDecimal(6))
+      .category("noCar")
       .build();
 
   public static final InvoiceEntry NULL_NET_PRICE = new InvoiceEntryBuilder()
@@ -52,6 +65,7 @@ public class InvoiceEntryProvider {
       .netPrice(null)
       .vatRate(VatRate.ZERO.getVatRateValue())
       .quantity(createBigDecimal(6))
+      .category("noCar")
       .build();
 
   public static final InvoiceEntry NULL_VAT_RATE = new InvoiceEntryBuilder()
@@ -59,6 +73,7 @@ public class InvoiceEntryProvider {
       .netPrice(createBigDecimal(13))
       .vatRate(null)
       .quantity(createBigDecimal(6))
+      .category("noCar")
       .build();
 
   public static final InvoiceEntry NULL_QUANTITY = new InvoiceEntryBuilder()
@@ -66,6 +81,7 @@ public class InvoiceEntryProvider {
       .netPrice(createBigDecimal(13))
       .vatRate(VatRate.ZERO.getVatRateValue())
       .quantity(null)
+      .category("noCar")
       .build();
 
   public static final List<InvoiceEntry> SPAN_CLAMP = new ArrayList<>(Arrays.asList(SPAN, CLAMP));
@@ -75,6 +91,8 @@ public class InvoiceEntryProvider {
   public static final List<InvoiceEntry> EMPTY = new ArrayList<>(Arrays.asList());
 
   public static final List<InvoiceEntry> ONE_LINK = new ArrayList<>(Arrays.asList(LINK));
+
+  public static final List<InvoiceEntry> ONE_CAR_FUEL = new ArrayList<>(Arrays.asList(CAR_FUEL));
 
   public static final List<InvoiceEntry> EMPTY_QUANTITY = new ArrayList<>(Arrays.asList(NULL_QUANTITY));
 

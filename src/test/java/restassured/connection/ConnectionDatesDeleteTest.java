@@ -5,9 +5,11 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
+import com.jayway.restassured.http.ContentType;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import pl.coderstrust.accounting.model.Invoice;
 import restassured.Data;
 
 public class ConnectionDatesDeleteTest implements Data {
@@ -18,6 +20,16 @@ public class ConnectionDatesDeleteTest implements Data {
           invoiceWasbud_2017.getBuyer().getNip(), invoiceWasbud_2017.getSeller().getNip(), invoiceWasbud_2018.getSeller().getNip(),
           invoiceWasbud_2018.getBuyer().getNip());
 
+  public static Invoice invoice = invoiceDrutex_2016;
+
+  public static int postInvoice(Invoice invoice) {
+    String id = given()
+        .contentType(ContentType.JSON)
+        .body(invoice)
+        .post(invoicesUrl).thenReturn().body().print();
+    return Integer.valueOf(id);
+  }
+
   @Test
   public void whenRequestGetInvoicesThen200() {
     given()
@@ -27,27 +39,28 @@ public class ConnectionDatesDeleteTest implements Data {
         .statusCode(200);
   }
 
-  //  TODO after merge - id problem
-  //  @Test
-  //  public void whenRequestGetSimpleInvoiceWithCorrectId_Then200() {
-  //    given()
-  //        .pathParam("id", 0)
-  //        .when()
-  //        .get(invoicesUrl + "/{id}")
-  //        .then()
-  //        .statusCode(200);
-  //  }
+  @Test
+  public void whenRequestGetSimpleInvoiceWithCorrectId_Then200() {
+    int id = postInvoice(invoiceDrutex_2016);
 
+    System.out.println(id);
+    given()
+        .pathParam("id", id)
+        .when()
+        .get(invoicesUrl + "/{id}")
+        .then()
+        .statusCode(200);
+  }
 
-  //  @Test
-  //  public void whenRequestGetSimpleInvoiceWithBadId_Then404() {
-  //    given()
-  //        .pathParam("id", 100)
-  //        .when()
-  //        .get(invoicesUrl + "/{id}")
-  //        .then()
-  //        .statusCode(404);
-  //  }
+  @Test
+  public void whenRequestGetSimpleInvoiceWithBadId_Then404() {
+    given()
+        .pathParam("id", 100)
+        .when()
+        .get(invoicesUrl + "/{id}")
+        .then()
+        .statusCode(404);
+  }
 
   @Test
   public void whenRequestTaxCalculatorGetIncome_Then200() {
@@ -104,31 +117,29 @@ public class ConnectionDatesDeleteTest implements Data {
     }
   }
 
+  @Test
+  public void whenRequestPutInvoiceWithCorrectID_Then200() {
+    int id = postInvoice(invoiceDrutex_2016);
 
-  //  TODO after merge - id problem
-  //  @Test
-  //  public void whenRequestPutInvoiceWithCorrectID_Then200() {
-  //    given()
-  //        .contentType(ContentType.JSON)
-  //        .body(invoiceDrutex_2018).pathParam("id", 2)
-  //        .when()
-  //        .put(invoicesUrl + "/{id}")
-  //        .then()
-  //        .statusCode(200);
-  //  }
+    given()
+        .contentType(ContentType.JSON)
+        .body(invoiceDrutex_2018).pathParam("id", id)
+        .when()
+        .put(invoicesUrl + "/{id}")
+        .then()
+        .statusCode(200);
+  }
 
+  @Test
+  public void whenRequestDeleteInvoiceCorrectID_Then200() {
+    int id = postInvoice(invoiceDrutex_2016);
 
-  //  TODO after merge - id problem
-
-  //  @Test
-  //  public void whenRequestDeleteInvoiceCorrectID_Then200() {
-  //    given()
-  //        .pathParam("id", 0)
-  //        .when()
-  //        .delete(invoicesUrl + "/{id}")
-  //        .then().statusCode(200);
-  //  }
-
+    given()
+        .pathParam("id", id)
+        .when()
+        .delete(invoicesUrl + "/{id}")
+        .then().statusCode(200);
+  }
 
   @Test
   public void whenRequestDeleteInvoiceWithBadID_Then404() {
@@ -149,14 +160,14 @@ public class ConnectionDatesDeleteTest implements Data {
         .statusCode(200);
   }
 
-  //  @Test
-  //  public void getInvoicesByIssueDateRange_Size() {
-  //    given()
-  //        .when()
-  //        .get(path)
-  //        .then()
-  //        .body("$.size()", is(4));
-  //  }
+  @Test
+  public void getInvoicesByIssueDateRange_Size() {
+    given()
+        .when()
+        .get(path)
+        .then()
+        .body("$.size()", is(4));
+  }
 
   @Test
   public void getInvoicesByIssueDateRange_hasItems() {

@@ -4,6 +4,7 @@ import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_DESCR
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_NET_PRICE;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_QUANTITY;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.EMPTY_VAT_RATE;
+import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.ONE_CAR_FUEL;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.ONE_LINK;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP;
 import static pl.coderstrust.accounting.helpers.InvoiceEntryProvider.SPAN_CLAMP_SUPPORT;
@@ -63,6 +64,16 @@ public class InvoiceProvider {
       .buyer(CompanyProvider.COMPANY_DRUTEX)
       .seller(CompanyProvider.COMPANY_WASBUD)
       .entries(ONE_LINK)
+      .build();
+
+  public static final Invoice INVOICE_DRUTEX_CAR_FUEL_ENTRY_2018 = new InvoiceBuilder()
+      .identifier("1/2018")
+      .issueDate(LocalDate.of(2018, 2, 12))
+      .saleDate(LocalDate.of(2018, 2, 12))
+      .salePlace("Sanok")
+      .buyer(CompanyProvider.COMPANY_DRUTEX)
+      .seller(CompanyProvider.COMPANY_WASBUD)
+      .entries(ONE_CAR_FUEL)
       .build();
 
   public static final Invoice INVOICE_EMPTY_ENTRIES = new InvoiceBuilder()

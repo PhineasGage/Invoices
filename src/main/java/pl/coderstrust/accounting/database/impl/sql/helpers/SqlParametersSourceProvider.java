@@ -3,6 +3,7 @@ package pl.coderstrust.accounting.database.impl.sql.helpers;
 import java.sql.Date;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import pl.coderstrust.accounting.model.Company;
+import pl.coderstrust.accounting.model.Insurance;
 import pl.coderstrust.accounting.model.Invoice;
 import pl.coderstrust.accounting.model.InvoiceEntry;
 
@@ -28,6 +29,8 @@ public class SqlParametersSourceProvider {
     namedParameters.addValue("postal_code", company.getPostalCode());
     namedParameters.addValue("city", company.getCity());
     namedParameters.addValue("discount", company.getDiscount());
+    namedParameters.addValue("is_active", company.getIsPersonalUsageOfCar());
+    namedParameters.addValue("tax_type", company.getTaxType().getTaxTypeString());
     return namedParameters;
   }
 
@@ -38,8 +41,17 @@ public class SqlParametersSourceProvider {
     namedParameters.addValue("vatRate", invoiceEntry.getVatRate());
     namedParameters.addValue("netPrice", invoiceEntry.getNetPrice());
     namedParameters.addValue("quantity", invoiceEntry.getQuantity());
+    namedParameters.addValue("category", invoiceEntry.getCategory());
     namedParameters.addValue("invoice_id", invoiceId);
     return namedParameters;
   }
 
+  public static MapSqlParameterSource getInsuranceMapSqlParameterSource(Insurance insurance) {
+    MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+    namedParameters.addValue("issue_date", insurance.getIssueDate());
+    namedParameters.addValue("type", insurance.getType().getInsuranceTypeString());
+    namedParameters.addValue("amount", insurance.getAmount());
+    namedParameters.addValue("nip", insurance.getNip());
+    return  namedParameters;
+  }
 }

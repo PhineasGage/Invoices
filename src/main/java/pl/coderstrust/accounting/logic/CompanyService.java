@@ -2,7 +2,6 @@ package pl.coderstrust.accounting.logic;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.accounting.database.Database;
 import pl.coderstrust.accounting.model.Company;
@@ -61,6 +60,17 @@ public class CompanyService {
     }
 
     companyDatabase.removeItemById(id);
+  }
+
+  public Optional<Company> getCompanyByNip(String nip) {
+    Optional<Company> companyFromDatabase = this.getCompanies()
+        .stream()
+        .filter(company -> company.getNip().equals(nip))
+        .findAny();
+    if (!companyFromDatabase.isPresent()) {
+      throw new IllegalStateException("Company with nip: " + nip + " does not exist");
+    }
+    return companyFromDatabase;
   }
 
   public void clearDatabase() {

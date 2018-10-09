@@ -9,12 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_BUYER_CITY;
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_BLANK_IDENTIFIER;
-
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_LINK_2016;
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018;
 import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016;
@@ -25,7 +23,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +46,6 @@ import pl.coderstrust.accounting.model.Invoice;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class InvoiceControllerTest {
-
 
   private static final String INVOICE_SERVICE_PATH = "/invoices";
   private static final MediaType JSON_CONTENT_TYPE = MediaType.APPLICATION_JSON_UTF8;
@@ -88,6 +84,7 @@ public class InvoiceControllerTest {
   @Before
   public void beforeMethod() {
     invoiceService.clearDatabase();
+    companyService.clearDatabase();
   }
 
   @Test
@@ -267,9 +264,7 @@ public class InvoiceControllerTest {
   @Test
   public void shouldReturnSpecifiedInvoiceForSpecifiedCompany() throws Exception {
     int drutexId = restTestHelper.callRestServiceToAddCompanyAndReturnId(CompanyProvider.COMPANY_DRUTEX);
-    System.out.println(drutexId);
     int firstDrutexInvoice = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
-    System.out.println(firstDrutexInvoice);
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
 

@@ -1,7 +1,6 @@
 package pl.coderstrust.accounting.database;
 
 import java.util.List;
-import pl.coderstrust.accounting.model.Invoice;
 import pl.coderstrust.accounting.model.ItemsForDatabase;
 
 public interface Database<T extends ItemsForDatabase> {

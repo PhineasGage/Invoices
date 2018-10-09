@@ -1,9 +1,7 @@
 package pl.coderstrust.accounting.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
 
 @ApiModel(value = "Invoice", description = "Sample model for the Invoice")
 @Entity
@@ -162,29 +159,6 @@ public class Invoice implements ItemsForDatabase<Invoice> {
   @Override
   public int hashCode() {
     return Objects.hash(getId());
-  }
-
-  @JsonIgnore
-  public BigDecimal getTotalNetValue() {
-    BigDecimal netValue = BigDecimal.ZERO;
-    for (InvoiceEntry entry : entries) {
-      netValue = netValue.add(getNetValueOfInvoiceEntry(entry));
-    }
-    return netValue;
-  }
-
-  @JsonIgnore
-  public BigDecimal getVatValue() {
-    BigDecimal vatValue = BigDecimal.ZERO;
-    for (InvoiceEntry entry : entries) {
-      vatValue = vatValue.add(getNetValueOfInvoiceEntry(entry)
-          .multiply(entry.getVatRate()));
-    }
-    return vatValue;
-  }
-
-  private BigDecimal getNetValueOfInvoiceEntry(InvoiceEntry entry) {
-    return entry.getNetValueBeforeDiscount().multiply(BigDecimal.ONE.subtract(getBuyer().getDiscount()));
   }
 
   @Override
