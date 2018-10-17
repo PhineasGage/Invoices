@@ -81,7 +81,7 @@ public class PostMethodTest implements Data {
             .body("[" + j + "].entries[" + i + "].description", is(invoices.get(j).getEntries().get(i).getDescription()))
             .body("[" + j + "].entries[" + i + "].netPrice", is(invoices.get(j).getEntries().get(i).getNetPrice().toString()))
             .body("[" + j + "].entries[" + i + "].vatRate",
-                is(invoices.get(j).getEntries().get(i).getVatRate().setScale(2, BigDecimal.ROUND_HALF_UP).toString()))
+                is(invoices.get(j).getEntries().get(i).getVatRate().toString()))
             .body("[" + j + "].entries[" + i + "].quantity", is(invoices.get(j).getEntries().get(i).getQuantity().toString()));
       }
     }

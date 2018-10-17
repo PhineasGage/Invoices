@@ -21,17 +21,18 @@ import static pl.coderstrust.accounting.helpers.InvoiceProvider.INVOICE_WASBUD_S
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import pl.coderstrust.accounting.configuration.DatabaseProvider;
 import pl.coderstrust.accounting.database.impl.hibernate.CompanyRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InsuranceRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InvoiceRepository;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaxCalculatorServiceTest {
@@ -45,22 +46,35 @@ public class TaxCalculatorServiceTest {
   @Autowired
   InsuranceRepository insuranceRepository;
 
-  @Autowired
-  JdbcTemplate jdbcTemplate;
+  private static DataSource getDataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("org.postgresql.Driver");
+    dataSource.setUrl("jdbc:postgresql://localhost:5432/accounting");
+    dataSource.setUsername("postgres");
+    dataSource.setPassword("postgres");
+    return dataSource;
+  }
 
-  private InvoiceService invoiceService = new InvoiceService(DatabaseProvider.provideInvoiceDatabase(
-      "InFileDatabase",
-      "src/test/resources/test", invoiceRepository, jdbcTemplate));
+  DataSource dataSource = getDataSource();
+  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-  private CompanyService companyService = new CompanyService(DatabaseProvider.provideCompanyDatabase(
-      "InFileDatabase",
-      "src/test/resources/test", companyRepository, jdbcTemplate));
+  private InvoiceService invoiceService = new InvoiceService(
+      DatabaseProvider.provideInvoiceDatabase(
+          "SqlDatabase",
+          "src/test/resources/test", invoiceRepository, jdbcTemplate));
 
-  private InsuranceService insuranceService = new InsuranceService(DatabaseProvider.provideInsuranceDatabase(
-      "InFileDatabase",
-      "src/test/resources/test", insuranceRepository, jdbcTemplate));
+  private CompanyService companyService = new CompanyService(
+      DatabaseProvider.provideCompanyDatabase(
+          "SqlDatabase",
+          "src/test/resources/test", companyRepository, jdbcTemplate));
 
-  private TaxCalculatorService taxCalculatorService = new TaxCalculatorService(invoiceService, companyService, insuranceService);
+  private InsuranceService insuranceService = new InsuranceService(
+      DatabaseProvider.provideInsuranceDatabase(
+          "SqlDatabase",
+          "src/test/resources/test", insuranceRepository, jdbcTemplate));
+
+  private TaxCalculatorService taxCalculatorService = new TaxCalculatorService(invoiceService,
+      companyService, insuranceService);
 
   @Before
   public void beforeMethod() {
@@ -74,7 +88,8 @@ public class TaxCalculatorServiceTest {
     //given
 
     //when
-    BigDecimal actual = taxCalculatorService.getTaxDue(COMPANY_WASBUD.getNip()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    BigDecimal actual = taxCalculatorService.getTaxDue(COMPANY_WASBUD.getNip())
+        .setScale(2, BigDecimal.ROUND_HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(0)));
@@ -87,7 +102,8 @@ public class TaxCalculatorServiceTest {
     invoiceService.saveInvoice(INVOICE_WASBUD_LINK_2018);
 
     //when
-    BigDecimal actual = taxCalculatorService.getIncome(COMPANY_DRUTEX.getNip()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    BigDecimal actual = taxCalculatorService.getIncome(COMPANY_DRUTEX.getNip())
+        .setScale(2, BigDecimal.ROUND_HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(786.0)));
@@ -100,7 +116,8 @@ public class TaxCalculatorServiceTest {
     invoiceService.saveInvoice(INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016);
 
     //when
-    BigDecimal actual = taxCalculatorService.getCosts(COMPANY_TRANSPOL.getNip()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    BigDecimal actual = taxCalculatorService.getCosts(COMPANY_TRANSPOL.getNip())
+        .setScale(2, BigDecimal.ROUND_HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(786.0)));
@@ -112,7 +129,8 @@ public class TaxCalculatorServiceTest {
     invoiceService.saveInvoice(INVOICE_DRUTEX_CAR_FUEL_ENTRY_2018);
 
     //when
-    BigDecimal actual = taxCalculatorService.getCosts(COMPANY_DRUTEX.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.getCosts(COMPANY_DRUTEX.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(107.64)));
@@ -125,7 +143,8 @@ public class TaxCalculatorServiceTest {
     invoiceService.saveInvoice(INVOICE_WASBUD_SPAN_CLAMP_2017);
 
     //when
-    BigDecimal actual = taxCalculatorService.getTaxDue(COMPANY_WASBUD.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.getTaxDue(COMPANY_WASBUD.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(120.29)));
@@ -140,7 +159,8 @@ public class TaxCalculatorServiceTest {
     invoiceService.saveInvoice(INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016);
 
     // when
-    BigDecimal actual = taxCalculatorService.getTaxIncluded(COMPANY_DRUKPOL.getNip()).setScale(2, BigDecimal.ROUND_HALF_UP);
+    BigDecimal actual = taxCalculatorService.getTaxIncluded(COMPANY_DRUKPOL.getNip())
+        .setScale(2, BigDecimal.ROUND_HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(233.69)));
@@ -157,7 +177,9 @@ public class TaxCalculatorServiceTest {
     insuranceService.saveInsurance(nip, PENSION_INSURANCE2);
 
     //when
-    BigDecimal actual = taxCalculatorService.taxCalculationBaseBeforeRounding(COMPANY_TRANSPOL.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService
+        .taxCalculationBaseBeforeRounding(COMPANY_TRANSPOL.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(1551.00)));
@@ -171,7 +193,8 @@ public class TaxCalculatorServiceTest {
     insuranceService.saveInsurance(nip, PENSION_INSURANCE2);
 
     //when
-    BigDecimal actual = taxCalculatorService.sumOfPensionInsurance(COMPANY_TRANSPOL.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.sumOfPensionInsurance(COMPANY_TRANSPOL.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(1200.00)));
@@ -185,7 +208,9 @@ public class TaxCalculatorServiceTest {
     insuranceService.saveInsurance(nip, HEALTH_INSURANCE2);
 
     //when
-    BigDecimal actual = taxCalculatorService.sumOfHealthInsurancesToSubstract(COMPANY_DRUTEX.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService
+        .sumOfHealthInsurancesToSubstract(COMPANY_DRUTEX.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(BigDecimal.valueOf(1033.33)));
@@ -200,7 +225,8 @@ public class TaxCalculatorServiceTest {
     insuranceService.saveInsurance(nip, PENSION_INSURANCE2);
 
     //when
-    BigDecimal actual = taxCalculatorService.getProfit(COMPANY_TRANSPOL.getNip()).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.getProfit(COMPANY_TRANSPOL.getNip())
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(550.20)));
@@ -209,7 +235,8 @@ public class TaxCalculatorServiceTest {
   @Test
   public void shouldCalculateNetValue() {
     //when
-    BigDecimal actual = taxCalculatorService.getTotalNetValue(INVOICE_WASBUD_SPAN_CLAMP_2017).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.getTotalNetValue(INVOICE_WASBUD_SPAN_CLAMP_2017)
+        .setScale(2, RoundingMode.HALF_UP);
     BigDecimal expected = createBigDecimal(504.00);
 
     //then
@@ -242,7 +269,8 @@ public class TaxCalculatorServiceTest {
     insuranceService.saveInsurance(nip, PENSION_INSURANCE3);
 
     //when
-    BigDecimal actual = taxCalculatorService.finalIncomeTax(COMPANY_WASBUD.getNip()).setScale(2).setScale(2, RoundingMode.HALF_UP);
+    BigDecimal actual = taxCalculatorService.finalIncomeTax(COMPANY_WASBUD.getNip()).setScale(2)
+        .setScale(2, RoundingMode.HALF_UP);
 
     //then
     assertThat(actual, is(createBigDecimal(18798.41).setScale(2)));

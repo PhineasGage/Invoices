@@ -32,7 +32,7 @@
           id SERIAL,
           description VARCHAR(255) NOT NULL,
           net_price NUMERIC NOT NULL,
-          vat_rate NUMERIC NOT NULL,
+          vat_rate INTEGER NOT NULL,
           quantity NUMERIC NOT NULL,
           category VARCHAR(255) NOT NULL,
           PRIMARY KEY(Id));

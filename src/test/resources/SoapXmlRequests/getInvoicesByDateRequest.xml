@@ -1,0 +1,4 @@
+<gs:getInvoicesByDateRequest xmlns:gs="http://invoice-service-soap">
+  <gs:startDate>2020-01-01</gs:startDate>
+  <gs:endDate>2020-12-31</gs:endDate>
+</gs:getInvoicesByDateRequest>

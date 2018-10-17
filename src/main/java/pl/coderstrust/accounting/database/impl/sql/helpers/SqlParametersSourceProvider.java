@@ -38,7 +38,7 @@ public class SqlParametersSourceProvider {
       int invoiceId) {
     MapSqlParameterSource namedParameters = new MapSqlParameterSource();
     namedParameters.addValue("description", invoiceEntry.getDescription());
-    namedParameters.addValue("vatRate", invoiceEntry.getVatRate());
+    namedParameters.addValue("vatRate", invoiceEntry.getVatRate().getNumberOfEnum());
     namedParameters.addValue("netPrice", invoiceEntry.getNetPrice());
     namedParameters.addValue("quantity", invoiceEntry.getQuantity());
     namedParameters.addValue("category", invoiceEntry.getCategory());

@@ -184,7 +184,7 @@ public class TaxCalculatorServiceWithDates {
         netValue = netValue
             .add(getNetValueOfInvoiceEntry(entry, invoice));
         netValue = netValue.add(netValue
-            .multiply(entry.getVatRate()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_UP));
+            .multiply(entry.getVatRate().getVatRateValue()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_UP));
       } else {
         netValue = netValue.add(getNetValueOfInvoiceEntry(entry, invoice));
       }
@@ -197,7 +197,7 @@ public class TaxCalculatorServiceWithDates {
     BigDecimal vatValue = BigDecimal.ZERO;
     for (InvoiceEntry entry : invoice.getEntries()) {
       vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-          .multiply(entry.getVatRate()));
+          .multiply(entry.getVatRate().getVatRateValue()));
     }
     return vatValue;
   }
@@ -210,10 +210,10 @@ public class TaxCalculatorServiceWithDates {
           && invoice.getBuyer().getIsPersonalUsageOfCar() == true) { // todo it repeats in multiple places - maybe you should extract it to function?
 
         vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-            .multiply(entry.getVatRate()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_DOWN));
+            .multiply(entry.getVatRate().getVatRateValue()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_DOWN));
       } else {
         vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-            .multiply(entry.getVatRate()));
+            .multiply(entry.getVatRate().getVatRateValue()));
       }
     }
     return vatValue;

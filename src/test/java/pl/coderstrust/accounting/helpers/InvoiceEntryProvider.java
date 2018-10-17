@@ -15,7 +15,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry SPAN = new InvoiceEntryBuilder()
       .description("span")
       .netPrice(createBigDecimal(100))
-      .vatRate(VatRate.NORMAL.getVatRateValue())
+      .vatRate(VatRate.NORMAL)
       .quantity(createBigDecimal(6))
       .category("car")
       .build();
@@ -23,7 +23,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry CLAMP = new InvoiceEntryBuilder()
       .description("clamp")
       .netPrice(createBigDecimal(6))
-      .vatRate(VatRate.NORMAL.getVatRateValue())
+      .vatRate(VatRate.NORMAL)
       .quantity(createBigDecimal(20))
       .category("noCar")
       .build();
@@ -31,7 +31,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry SUPPORT = new InvoiceEntryBuilder()
       .description("support")
       .netPrice(createBigDecimal(11))
-      .vatRate(VatRate.REDUCED_4.getVatRateValue())
+      .vatRate(VatRate.REDUCED_4)
       .quantity(createBigDecimal(6))
       .category("noCar")
       .build();
@@ -39,7 +39,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry LINK = new InvoiceEntryBuilder()
       .description("link")
       .netPrice(createBigDecimal(13))
-      .vatRate(VatRate.REDUCED_7.getVatRateValue())
+      .vatRate(VatRate.REDUCED_7)
       .quantity(createBigDecimal(6))
       .category("noCar")
       .build();
@@ -47,7 +47,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry CAR_FUEL = new InvoiceEntry.InvoiceEntryBuilder()
       .description("car_fuel")
       .netPrice(createBigDecimal(13))
-      .vatRate(createBigDecimal(0.07))
+      .vatRate(VatRate.REDUCED_7)
       .quantity(createBigDecimal(10))
       .category("car")
       .build();
@@ -55,7 +55,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry BLANK_DESCRIPTION = new InvoiceEntryBuilder()
       .description("")
       .netPrice(createBigDecimal(13))
-      .vatRate(VatRate.ZERO.getVatRateValue())
+      .vatRate(VatRate.ZERO)
       .quantity(createBigDecimal(6))
       .category("noCar")
       .build();
@@ -63,7 +63,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry NULL_NET_PRICE = new InvoiceEntryBuilder()
       .description("link")
       .netPrice(null)
-      .vatRate(VatRate.ZERO.getVatRateValue())
+      .vatRate(VatRate.ZERO)
       .quantity(createBigDecimal(6))
       .category("noCar")
       .build();
@@ -79,7 +79,7 @@ public class InvoiceEntryProvider {
   public static final InvoiceEntry NULL_QUANTITY = new InvoiceEntryBuilder()
       .description("link")
       .netPrice(createBigDecimal(13))
-      .vatRate(VatRate.ZERO.getVatRateValue())
+      .vatRate(VatRate.ZERO)
       .quantity(null)
       .category("noCar")
       .build();

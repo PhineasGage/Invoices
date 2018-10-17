@@ -5,34 +5,28 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUKPOL;
 import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_DRUTEX;
 import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_TRANSPOL;
 import static pl.coderstrust.accounting.helpers.CompanyProvider.COMPANY_WASBUD;
 import static pl.coderstrust.accounting.helpers.InsuranceProvider.HEALTH_INSURANCE;
 import static pl.coderstrust.accounting.helpers.InsuranceProvider.HEALTH_INSURANCE2;
 import static pl.coderstrust.accounting.helpers.InsuranceProvider.HEALTH_INSURANCE3;
-import static pl.coderstrust.accounting.helpers.InsuranceProvider.PENSION_INSURANCE;
-import static pl.coderstrust.accounting.helpers.InsuranceProvider.PENSION_INSURANCE2;
 import static pl.coderstrust.accounting.helpers.InsuranceProvider.PENSION_INSURANCE3;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.sql.DataSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import pl.coderstrust.accounting.configuration.DatabaseProvider;
 import pl.coderstrust.accounting.database.impl.hibernate.CompanyRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InsuranceRepository;
@@ -43,25 +37,34 @@ import pl.coderstrust.accounting.model.InsuranceType;
 @RunWith(MockitoJUnitRunner.class)
 public class InsuranceServiceTest {
 
-  @Autowired
   InsuranceRepository insuranceRepository;
 
-  @Autowired
-  JdbcTemplate jdbcTemplate;
+  private static DataSource getDataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("org.postgresql.Driver");
+    dataSource.setUrl("jdbc:postgresql://localhost:5432/accounting");
+    dataSource.setUsername("postgres");
+    dataSource.setPassword("postgres");
+    return dataSource;
+  }
 
-  @Autowired
+  DataSource dataSource = getDataSource();
+  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
   CompanyRepository companyRepository;
 
   @Rule
   public ExpectedException expectedEx = ExpectedException.none();
 
-  private CompanyService companyService = new CompanyService(DatabaseProvider.provideCompanyDatabase(
-      "InFileDatabase",
-      "src/test/resources/test", companyRepository, jdbcTemplate));
+  private CompanyService companyService = new CompanyService(
+      DatabaseProvider.provideCompanyDatabase(
+          "SqlDatabase",
+          "src/test/resources/test", companyRepository, jdbcTemplate));
 
-  private InsuranceService insuranceService = new InsuranceService(DatabaseProvider.provideInsuranceDatabase(
-      "InFileDatabase",
-      "src/test/resources/test", insuranceRepository, jdbcTemplate));
+  private InsuranceService insuranceService = new InsuranceService(
+      DatabaseProvider.provideInsuranceDatabase(
+          "SqlDatabase",
+          "src/test/resources/test", insuranceRepository, jdbcTemplate));
 
   @Before
   public void prepareMockedCompaniesListForAllTests() {
@@ -114,7 +117,8 @@ public class InsuranceServiceTest {
     insuranceService.saveInsurance(COMPANY_WASBUD.getNip(), PENSION_INSURANCE3);
 
     //when
-    List<Insurance> actual = insuranceService.getInsurancesByTypeAndCompany(InsuranceType.PENSION, COMPANY_WASBUD.getNip());
+    List<Insurance> actual = insuranceService
+        .getInsurancesByTypeAndCompany(InsuranceType.PENSION, COMPANY_WASBUD.getNip());
 
     //then
     assertThat(actual, hasSize(1));
@@ -129,11 +133,11 @@ public class InsuranceServiceTest {
     insuranceService.saveInsurance(nip, HEALTH_INSURANCE2);
     insuranceService.saveInsurance(nip, HEALTH_INSURANCE3);
 
-
     //when
     LocalDate fromDate = LocalDate.of(2017, 1, 01);
     LocalDate toDate = LocalDate.of(2017, 12, 31);
-    List<Insurance> actual = insuranceService.getInsurancesByIssueDateAndByCompany(fromDate, toDate, COMPANY_WASBUD.getNip());
+    List<Insurance> actual = insuranceService
+        .getInsurancesByIssueDateAndByCompany(fromDate, toDate, COMPANY_WASBUD.getNip());
 
     //then
     assertThat(actual.size(), is(2));

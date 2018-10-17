@@ -10,6 +10,7 @@ Clone git repository https://github.com/CodersTrustPL/project-6-kamil-mietek-mat
 
 ## Prerequisites
 - GIT installed
+- Create a Postgresql database "accounting"
 - Checkstyle plugin helps working with code.
 - Maven wrapper takes care of maven installation.
 

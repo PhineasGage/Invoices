@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -38,6 +39,8 @@ import pl.coderstrust.accounting.helpers.RestTestHelper;
 import pl.coderstrust.accounting.logic.CompanyService;
 import pl.coderstrust.accounting.logic.InsuranceService;
 import pl.coderstrust.accounting.logic.InvoiceService;
+import pl.coderstrust.accounting.security.Account;
+import pl.coderstrust.accounting.security.AccountRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -68,6 +71,9 @@ public class TaxCalculatorControllerWithDatesTest {
   @Autowired
   private CompanyService companyService;
 
+  @Autowired
+  private AccountRepository accountRepository;
+
   private RestTestHelper restTestHelper;
 
   @PostConstruct
@@ -77,6 +83,7 @@ public class TaxCalculatorControllerWithDatesTest {
 
   @Before
   public void beforeMethod() {
+    accountRepository.save(new Account("user", "password"));
     insuranceService.clearDatabase();
     invoiceService.clearDatabase();
     companyService.clearDatabase();
@@ -88,6 +95,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void getIncome() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
@@ -103,6 +111,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldGetTaxDue() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
@@ -119,6 +128,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldGetTaxIncluded() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
@@ -135,6 +145,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldGetCosts() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
@@ -151,6 +162,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldGetProfit() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
@@ -167,6 +179,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldGetVatPayable() throws Exception {
     //given
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_SPAN_CLAMP_2017);
@@ -184,6 +197,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnFinalIncomeTaxes() throws Exception {
     //given
     for (int i = 0; i < 200; i++) {
@@ -205,6 +219,7 @@ public class TaxCalculatorControllerWithDatesTest {
   }
 
   @Test
+  @WithMockUser
   public void getIncomTaxesDetails() throws Exception {
     //given
     for (int i = 0; i < 200; i++) {

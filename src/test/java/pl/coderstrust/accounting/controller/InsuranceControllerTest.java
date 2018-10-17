@@ -25,12 +25,14 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.generator.qdox.JavaDocBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.coderstrust.accounting.configuration.JacksonProvider;
@@ -42,6 +44,8 @@ import pl.coderstrust.accounting.logic.InsuranceService;
 import pl.coderstrust.accounting.logic.InvoiceService;
 import pl.coderstrust.accounting.model.Insurance;
 import pl.coderstrust.accounting.model.InsuranceType;
+import pl.coderstrust.accounting.security.Account;
+import pl.coderstrust.accounting.security.AccountRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -64,6 +68,8 @@ public class InsuranceControllerTest {
 
   @Autowired
   private InsuranceService insuranceService;
+  @Autowired
+  private AccountRepository accountRepository;
 
   ItemConverter<Insurance> itemConverter = new ItemConverter<Insurance>(JacksonProvider.getObjectMapper(), Insurance.class);
 
@@ -80,17 +86,20 @@ public class InsuranceControllerTest {
 
   @Before
   public void beforeMethod() {
+    accountRepository.save(new Account("user", "password"));
     insuranceService.clearDatabase();
     invoiceService.clearDatabase();
     companyService.clearDatabase();
   }
 
   @Test
+  @WithMockUser
   public void contexLoads() {
     assertThat(insuranceController, is(notNullValue()));
   }
 
   @Test
+  @WithMockUser
   public void addInsurance() throws Exception {
     String nip = COMPANY_EMPTY_INSURANCES.getNip();
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_EMPTY_INSURANCES);
@@ -110,6 +119,7 @@ public class InsuranceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getInsurancesById() throws Exception {
     String nip = COMPANY_EMPTY_INSURANCES.getNip();
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_EMPTY_INSURANCES);
@@ -121,6 +131,7 @@ public class InsuranceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnInsurancesByCompany() throws Exception {
     String nip = COMPANY_EMPTY_INSURANCES.getNip();
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_EMPTY_INSURANCES);
@@ -138,6 +149,7 @@ public class InsuranceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getInsurancesByTypeAndByCompany() throws Exception {
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_TRANSPOL);
     String nip = COMPANY_TRANSPOL.getNip();
@@ -164,6 +176,7 @@ public class InsuranceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getInsurancesByDateAndByCompany() throws Exception {
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_EMPTY_INSURANCES2);
     String nip = COMPANY_EMPTY_INSURANCES2.getNip();
@@ -192,6 +205,7 @@ public class InsuranceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldRemoveInsuranceById() throws Exception {
     restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_EMPTY_INSURANCES2);
     String nip = COMPANY_EMPTY_INSURANCES2.getNip();
@@ -201,7 +215,6 @@ public class InsuranceControllerTest {
 
     StringBuilder url = new StringBuilder();
     url.append("/remove/").append(idResponse2);
-
 
     mockMvc.perform(delete(INSURANCE_SERVICE_PATH + url.toString()))
         .andExpect(status().isOk());

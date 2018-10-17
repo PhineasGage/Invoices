@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.coderstrust.accounting.configuration.JacksonProvider;
@@ -35,6 +36,8 @@ import pl.coderstrust.accounting.helpers.CompanyAssertion;
 import pl.coderstrust.accounting.helpers.RestTestHelper;
 import pl.coderstrust.accounting.logic.CompanyService;
 import pl.coderstrust.accounting.model.Company;
+import pl.coderstrust.accounting.security.Account;
+import pl.coderstrust.accounting.security.AccountRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -64,13 +67,18 @@ public class CompanyControllerTest {
 
   private CompanyAssertion companyAssertion = new CompanyAssertion();
 
+  @Autowired
+  private AccountRepository accountRepository;
+
   @PostConstruct
   public void postConstruct() {
+    accountRepository.save(new Account("Mat", "mat"));
     restTestHelper = new RestTestHelper(mockMvc);
   }
 
   @Before
   public void beforeMethod() {
+    accountRepository.save(new Account("user", "password"));
     companyService.clearDatabase();
   }
 
@@ -80,14 +88,15 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldCheckSaveSaveCompanyRequest() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUTEX);
     Company savedCompany = restTestHelper.callRestServiceToReturnCompanyById(idResponse);
-
     companyAssertion.assertCompany(idResponse, COMPANY_DRUTEX, savedCompany);
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorMessageCorrespondingToIncorrectCompanyField() throws Exception {
     mockMvc.perform(
         post(COMPANY_SERVICE_PATH)
@@ -99,6 +108,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getAllCompanies() throws Exception {
     int firstResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUTEX);
     int secondResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_WASBUD);
@@ -117,6 +127,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getsSingleCompanyById() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUKPOL);
     Company savedCompany = restTestHelper.callRestServiceToReturnCompanyById(idResponse);
@@ -125,6 +136,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingId() throws Exception {
     mockMvc
         .perform(get(COMPANY_SERVICE_PATH + "/0"))
@@ -132,6 +144,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void updateCompanyById() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_TRANSPOL);
     int idResponse2 = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUTEX);
@@ -147,6 +160,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingIdPassedToUpdate() throws Exception {
     mockMvc
         .perform(put(COMPANY_SERVICE_PATH + "/0")
@@ -156,6 +170,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void removeCompanyById() throws Exception {
     int firstResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUTEX);
     int secondResponse = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_WASBUD);
@@ -178,6 +193,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingIdPassedToDeleteRequest() throws Exception {
     mockMvc
         .perform(delete(COMPANY_SERVICE_PATH + "/0"))
@@ -185,6 +201,7 @@ public class CompanyControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotValidNamePassedToUpdate() throws Exception {
     int companyId = restTestHelper.callRestServiceToAddCompanyAndReturnId(COMPANY_DRUTEX);
 

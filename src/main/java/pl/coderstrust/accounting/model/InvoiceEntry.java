@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,8 +32,9 @@ public class InvoiceEntry {
   @ApiModelProperty(value = "Bigdecimal, net price", example = "10.86")
   private BigDecimal netPrice;
 
-  @ApiModelProperty(value = "Vat rate", example = "0.23")
-  private BigDecimal vatRate;
+  @ApiModelProperty(value = "Vat rate", example = "NORMAL")
+  //  @Enumerated(EnumType.STRING)
+  private VatRate vatRate;
 
   @ApiModelProperty(value = "quantity", example = "10")
   private BigDecimal quantity;
@@ -73,11 +76,11 @@ public class InvoiceEntry {
     this.netPrice = netPrice;
   }
 
-  public BigDecimal getVatRate() {
+  public VatRate getVatRate() {
     return vatRate;
   }
 
-  public void setVatRate(BigDecimal vatRate) {
+  public void setVatRate(VatRate vatRate) {
     this.vatRate = vatRate;
   }
 
@@ -163,7 +166,7 @@ public class InvoiceEntry {
       return this;
     }
 
-    public InvoiceEntryBuilder vatRate(BigDecimal vatRate) {
+    public InvoiceEntryBuilder vatRate(VatRate vatRate) {
       invoiceEntry.vatRate = vatRate;
       return this;
     }

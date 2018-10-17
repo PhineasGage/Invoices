@@ -1,0 +1,166 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://invoice-service-soap"
+  targetNamespace="http://invoice-service-soap" elementFormDefault="qualified">
+
+  <xs:element name="addInvoiceRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="invoice" type="tns:invoice"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="addInvoiceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getInvoicesRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getInvoicesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="invoice" type="tns:invoice"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getInvoicesByDateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="startDate" type="xs:date"/>
+        <xs:element name="endDate" type="xs:date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getInvoicesByDateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="invoiceList" type="tns:invoiceList"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="updateInvoiceRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:int"/>
+        <xs:element name="invoice" type="tns:invoice"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="updateInvoiceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="idInvoice" type="xs:int"/>
+        <xs:element name="response" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="removeInvoiceRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="removeInvoiceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="response" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="invoice">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="identifier" type="xs:string"/>
+      <xs:element name="issueDate" type="xs:date"/>
+      <xs:element name="saleDate" type="xs:date"/>
+      <xs:element name="salePlace" type="xs:string"/>
+      <xs:element name="buyer" type="tns:company"/>
+      <xs:element name="seller" type="tns:company"/>
+      <xs:element name="entries" minOccurs="0" maxOccurs="unbounded" type="tns:invoiceEntry"/>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="company">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="nip" type="xs:string"/>
+      <xs:element name="street" type="xs:string"/>
+      <xs:element name="postalCode" type="xs:string"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="discount" type="xs:decimal"/>
+      <xs:element name="taxType" type="tns:taxType"/>
+      <xs:element name="isPersonalUsageOfCar" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="invoiceEntry">
+    <xs:sequence>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="netPrice" type="xs:decimal"/>
+      <xs:element name="vatRate" type="tns:vatRate"/>
+      <xs:element name="quantity" type="xs:decimal"/>
+      <xs:element name="category" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:simpleType name="vatRate">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NORMAL"/>
+      <xs:enumeration value="REDUCED_8"/>
+      <xs:enumeration value="REDUCED_7"/>
+      <xs:enumeration value="REDUCED_4"/>
+      <xs:enumeration value="ZERO"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="insurance">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="issueDate" type="xs:date"/>
+      <xs:element name="type" type="tns:insuranceType"/>
+      <xs:element minOccurs="0" name="amount" type="xs:decimal"/>
+      <xs:element name="nip" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="insuranceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PENSION"/>
+      <xs:enumeration value="HEALTH"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="taxType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LINEAR"/>
+      <xs:enumeration value="GRADED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="invoiceList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="invoice" type="tns:invoice"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

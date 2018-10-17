@@ -4,6 +4,7 @@ g-
 *.iml
 .idea
 target
+invoice_service_soap
 
 ### Java ###
 # Compiled class file

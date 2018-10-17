@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.coderstrust.accounting.configuration.JacksonProvider;
@@ -41,6 +42,8 @@ import pl.coderstrust.accounting.helpers.RestTestHelper;
 import pl.coderstrust.accounting.logic.CompanyService;
 import pl.coderstrust.accounting.logic.InvoiceService;
 import pl.coderstrust.accounting.model.Invoice;
+import pl.coderstrust.accounting.security.Account;
+import pl.coderstrust.accounting.security.AccountRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -68,6 +71,9 @@ public class InvoiceControllerTest {
   @Autowired
   private CompanyService companyService;
 
+  @Autowired
+  private AccountRepository accountRepository;
+
   ItemConverter<Invoice> itemConverter = new ItemConverter<Invoice>(JacksonProvider.getObjectMapper(), Invoice.class);
 
   private InvoiceController invoiceController = new InvoiceController(invoiceService, companyService, invoiceValidator, companyValidator);
@@ -83,6 +89,7 @@ public class InvoiceControllerTest {
 
   @Before
   public void beforeMethod() {
+//    accountRepository.save(new Account("user", "password"));
     invoiceService.clearDatabase();
     companyService.clearDatabase();
   }
@@ -93,6 +100,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldCheckSaveInvoiceRequest() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_LINK_2016);
     Invoice savedInvoice = restTestHelper.callRestServiceToReturnInvoiceById(idResponse);
@@ -101,6 +109,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorMessageCorrespondingToIncorrectInvoiceField() throws Exception {
     mockMvc.perform(
         post(INVOICE_SERVICE_PATH)
@@ -112,6 +121,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getsInvoices() throws Exception {
     int firstResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
     int secondResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016);
@@ -130,6 +140,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getsInvoicesByIssueDateRange() throws Exception {
     restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
     int idResponseA = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016);
@@ -157,6 +168,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void getsSingleInvoice() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
     Invoice firstSavedInvoice = restTestHelper.callRestServiceToReturnInvoiceById(idResponse);
@@ -165,6 +177,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingId() throws Exception {
     mockMvc
         .perform(get(INVOICE_SERVICE_PATH + "/0"))
@@ -172,6 +185,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void updatesInvoiceById() throws Exception {
     int idResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_WASBUD_LINK_2018);
     mockMvc
@@ -184,6 +198,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingIdPassedToUpdate() throws Exception {
     mockMvc
         .perform(put(INVOICE_SERVICE_PATH + "/0")
@@ -193,6 +208,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotValidInvoiceIdentifier() throws Exception {
     int invoiceId = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
 
@@ -205,6 +221,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void removesInvoiceById() throws Exception {
     int firstResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
     int secondResponse = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_TRANSPOL_SPAN_CLAMP_SUPPORT_2016);
@@ -226,6 +243,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnErrorCausedByNotExistingIdPassedToDeleteRequest() throws Exception {
     mockMvc
         .perform(delete(INVOICE_SERVICE_PATH + "/0"))
@@ -233,6 +251,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnListOfInvoicesAccordingToSpecifiedCompany() throws Exception {
     int drutexId = restTestHelper.callRestServiceToAddCompanyAndReturnId(CompanyProvider.COMPANY_DRUTEX);
     int firstDrutexInvoice = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);
@@ -262,6 +281,7 @@ public class InvoiceControllerTest {
   }
 
   @Test
+  @WithMockUser
   public void shouldReturnSpecifiedInvoiceForSpecifiedCompany() throws Exception {
     int drutexId = restTestHelper.callRestServiceToAddCompanyAndReturnId(CompanyProvider.COMPANY_DRUTEX);
     int firstDrutexInvoice = restTestHelper.callRestServiceToAddInvoiceAndReturnId(INVOICE_DRUTEX_SPAN_CLAMP_SUPPORT_2018);

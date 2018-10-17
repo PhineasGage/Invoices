@@ -189,7 +189,7 @@ public class TaxCalculatorService {
         netValue = netValue
             .add(getNetValueOfInvoiceEntry(entry, invoice));
         netValue = netValue.add(netValue
-            .multiply(entry.getVatRate()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_UP));
+            .multiply(entry.getVatRate().getVatRateValue()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_UP));
       } else {
         netValue = netValue.add(getNetValueOfInvoiceEntry(entry, invoice));
       }
@@ -202,7 +202,7 @@ public class TaxCalculatorService {
     BigDecimal vatValue = BigDecimal.ZERO;
     for (InvoiceEntry entry : invoice.getEntries()) {
       vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-          .multiply(entry.getVatRate()));
+          .multiply(entry.getVatRate().getVatRateValue()));
     }
     return vatValue;
   }
@@ -213,10 +213,10 @@ public class TaxCalculatorService {
     for (InvoiceEntry entry : invoice.getEntries()) {
       if (entry.getCategory().equals("car") && invoice.getBuyer().getIsPersonalUsageOfCar() == true) {
         vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-            .multiply(entry.getVatRate()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_DOWN));
+            .multiply(entry.getVatRate().getVatRateValue()).divide((BigDecimal.valueOf(2)), 2, BigDecimal.ROUND_DOWN));
       } else {
         vatValue = vatValue.add((getNetValueOfInvoiceEntry(entry, invoice))
-            .multiply(entry.getVatRate()));
+            .multiply(entry.getVatRate().getVatRateValue()));
       }
     }
     return vatValue;

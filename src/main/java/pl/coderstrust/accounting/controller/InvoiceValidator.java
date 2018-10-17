@@ -16,7 +16,7 @@ public class InvoiceValidator {
     this.invoiceEntryValidator = invoiceEntryValidator;
   }
 
-  List<String> validate(Invoice invoice) {
+  public List<String> validate(Invoice invoice) {
     List<String> validationErrors = new ArrayList<>();
 
     if (invoice.getIdentifier() == null || invoice.getIdentifier().trim().equals("")) {

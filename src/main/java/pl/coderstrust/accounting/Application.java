@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import pl.coderstrust.accounting.database.impl.hibernate.CompanyRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InsuranceRepository;
 import pl.coderstrust.accounting.database.impl.hibernate.InvoiceRepository;
+import pl.coderstrust.accounting.security.Account;
+import pl.coderstrust.accounting.security.AccountRepository;
 
 @SpringBootApplication
 public class Application {
@@ -20,11 +22,17 @@ public class Application {
   }
 
   @Bean
-  public CommandLineRunner demo(InvoiceRepository invoiceRepository, CompanyRepository companyRepository, InsuranceRepository insuranceRepository) {
+  public CommandLineRunner demo(InvoiceRepository invoiceRepository,
+                                CompanyRepository companyRepository,
+                                final AccountRepository accountRepository) {
+    invoiceRepository.deleteAll();
+    companyRepository.deleteAll();
+    accountRepository.deleteAll();
+    accountRepository.save(new Account("Kamil", "kamil"));
+    accountRepository.save(new Account("Mat", "mat"));
+    accountRepository.save(new Account("Mietek", "mietek"));
+    accountRepository.save(new Account("Piotr", "piotr"));
     return (args) -> {
-      invoiceRepository.deleteAll();
-      companyRepository.deleteAll();
-      insuranceRepository.deleteAll();
     };
   }
 }

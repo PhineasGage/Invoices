@@ -1,0 +1,3 @@
+<gs:removeInvoiceRequest xmlns:gs="http://invoice-service-soap">
+  <gs:id>4</gs:id>
+</gs:removeInvoiceRequest>

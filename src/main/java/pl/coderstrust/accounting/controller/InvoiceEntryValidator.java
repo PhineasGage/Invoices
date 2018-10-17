@@ -29,12 +29,12 @@ public class InvoiceEntryValidator {
       }
       if (entry.getVatRate() == null) {
         validationErrors.add("Vat rate for entry not found");
-      }
-
-      boolean isVatRateAccordingToVatRateEnum = Arrays.stream(VatRate.values())
-          .anyMatch(vatRate -> vatRate.getVatRateValue().equals(entry.getVatRate()));
-      if (!isVatRateAccordingToVatRateEnum) {
-        validationErrors.add("Vat rate is not valid");
+      } else {
+        boolean isVatRateAccordingToVatRateEnum = Arrays.stream(VatRate.values())
+            .anyMatch(vatRate -> vatRate.getVatRateValue().equals(entry.getVatRate().getVatRateValue()));
+        if (!isVatRateAccordingToVatRateEnum) {
+          validationErrors.add("Vat rate is not valid");
+        }
       }
     }
     return validationErrors;
